@@ -53,9 +53,12 @@ void InputHandler::sanitizeInput(std::vector<std::string> choices)
     for(int i {}; i < std::size(choices); i++ )
     {
         std::transform(choices[i].begin(), choices[i].end(), choices[i].begin(), ::tolower);
-        std::cout << choices[i] << " ";
-        if(choices[i].find(input))
+        std::cout << choices[i] << " = ";
+        std::cout << input << std::endl;
+
+        if(choices[i].find(input) != std::string::npos)
         {
+            std::cout << i << std::endl;
             sanitized_input = i;
             break;
         }

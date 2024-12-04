@@ -40,6 +40,8 @@ void GameManager::pauseGame()
 void GameManager::displayScene()
 {
     // system("clear");
+
+    std::cout << "\n\n";
     scenes[current_scene_index].display();
 }
 
