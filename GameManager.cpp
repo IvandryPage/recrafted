@@ -1,13 +1,26 @@
 #include "GameManager.h"
 
-GameManager::GameManager() = default;
+GameManager::GameManager()
+{
+    loadScene();
+    current_scene_index = 0;
+}
+
 GameManager::~GameManager() = default;
 
-void GameManager::startGame()
+void GameManager::startGame(InputHandler* inputHandler)
 {
     running_state = true;
     std::cout << "Recrafted - The Love Rewritten" << std::endl;
     std::cout << "Loading.. animation" << std::endl;
+    while(running_state)
+    {
+        displayScene();
+        inputHandler->getPlayerInput(scenes[current_scene_index].getChoices());
+
+        current_scene_index = scenes[current_scene_index].getNextScenes()[inputHandler->getSanitizedInput()];
+        nextScene(current_scene_index);
+    }
 }
 
 void GameManager::exitGame()
@@ -23,7 +36,26 @@ void GameManager::pauseGame()
     std::cout << "Pause!" << std::endl;
 }
 
+
+void GameManager::displayScene()
+{
+    // system("clear");
+    scenes[current_scene_index].display();
+}
+
+void GameManager::nextScene(int scene_index)
+{
+    std::cout << "Change scene!" << std::endl;
+}
+
 void GameManager::loadScene()
 {
-    std::cout << "Load scene!" << std::endl;
+    std::cout << "Load all scene data!" << std::endl;
+    scenes.push_back(Scene("start_scene", "Introduction - Recrafted!"));
+    scenes.push_back(Scene("second_scene", "Introduction 2 - Recrafted!"));
+
+    scenes[0].addChoice("Go", 1);
+    scenes[0].addChoice("Stay", 0);
+    scenes[1].addChoice("Home", 0);
+    scenes[1].addChoice("Castle", 1);
 }

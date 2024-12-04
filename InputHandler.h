@@ -3,27 +3,30 @@
 
 #include <iostream>
 #include <algorithm>
+#include <vector>
 
 class InputHandler
 {
     private:
         bool is_valid{};
         std::string input{};
+        int sanitized_input{};
 
-        bool validateInput();
-        void sanitizeInput();
+        bool validateInput(std::vector<std::string>& choices);
+        void sanitizeInput(std::vector<std::string> choices);
 
     public:
         InputHandler();
         ~InputHandler();
 
         std::string getInput();
-        void setInput(std::string input_param);
+        void setSanitizedInput(int sanitized_input_param);
+        int getSanitizedInput();
 
         bool getIsValid();
         void setIsValid(bool is_valid_param);
 
-        std::string getPlayerInput();
+        std::string getPlayerInput(std::vector<std::string>& choices);
 
 };
 

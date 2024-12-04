@@ -7,9 +7,6 @@ InputHandler inputHandler;
 
 int main()
 {
-    gameManager.startGame();
-    inputHandler.getPlayerInput();
-    std::cout << inputHandler.getInput() << std::endl;
-    gameManager.exitGame();
+    gameManager.startGame(&inputHandler);
     return 0;
 }
