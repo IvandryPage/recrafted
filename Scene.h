@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "Character.h"
+#include "Dialogue.h"
 
 class Scene
 {
@@ -13,7 +14,7 @@ class Scene
         std::string description{};
         std::vector<int> next_scenes {};
         std::vector<std::string> choices {};
-        std::vector<std::string> dialogues {};
+        std::vector<Dialogue> dialogues {};
         bool is_ending{};
 
     public:

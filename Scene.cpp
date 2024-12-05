@@ -32,7 +32,7 @@ void Scene::displayDialogues(std::vector<Character> characters)
 {
     for(auto& dialogue : dialogues)
     {
-        characters[0].speak(dialogue);
+        characters[dialogue.character_index].speak(dialogue.line);
     }
 }
 
@@ -44,5 +44,5 @@ void Scene::addChoice(const std::string &choice, int next_scene_index)
 
 void Scene::addDialogues(int character_index, const std::string line)
 {
-    dialogues.push_back(line);
+    dialogues.push_back(Dialogue(character_index, line));
 }

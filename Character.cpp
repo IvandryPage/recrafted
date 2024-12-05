@@ -8,7 +8,7 @@ Character::Character(std::string name_param, std::string description_param)
     description = description_param;
 }
 
-void Character::speak(const std::string& line)
+void Character::speak(std::string line)
 {
     std::cout << name << " : " << line << std::endl;
 }

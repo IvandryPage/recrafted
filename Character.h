@@ -14,7 +14,7 @@ class Character
         Character();
         Character(std::string name_param, std::string description_param);
         ~Character();
-        void speak(const std::string& line);
+        void speak(std::string line);
 
 };
 
