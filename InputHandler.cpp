@@ -57,5 +57,7 @@ void InputHandler::sanitizeInput(std::vector<std::string> choices)
             sanitized_input = i;
             break;
         }
+
+        sanitized_input = -1;
     }
 }

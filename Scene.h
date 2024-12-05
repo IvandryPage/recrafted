@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include "Character.h"
 
 class Scene
 {
@@ -12,6 +13,7 @@ class Scene
         std::string description{};
         std::vector<int> next_scenes {};
         std::vector<std::string> choices {};
+        std::vector<std::string> dialogues {};
         bool is_ending{};
 
     public:
@@ -19,8 +21,10 @@ class Scene
         Scene(std::string title_param, std::string description_param);
         ~Scene();
         bool getIsEnding();
-        void display();
+        void display(std::vector<Character> characters);
+        void displayDialogues(std::vector<Character> characters);
         void addChoice(const std::string &choice, int next_scene_index);
+        void addDialogues(int character_index, const std::string line);
         std::vector<std::string>& getChoices();
         std::vector<int> getNextScenes();
 };

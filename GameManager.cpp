@@ -3,6 +3,7 @@
 GameManager::GameManager()
 {
     loadScene();
+    loadCharacter();
     current_scene_index = 0;
 }
 
@@ -40,7 +41,7 @@ void GameManager::pauseGame()
 void GameManager::displayScene()
 {
     system("clear");
-    scenes[current_scene_index].display();
+    scenes[current_scene_index].display(characters);
 }
 
 void GameManager::nextScene(int scene_index)
@@ -56,10 +57,21 @@ void GameManager::loadScene()
     scenes[0].addChoice("Stay", 0);
 
     scenes.push_back(Scene("second_scene", "Jungle - Recrafted!"));
+    scenes[1].addDialogues(0, "EMERGENCY!");
+    scenes[1].addDialogues(1, "Status?");
+    scenes[1].addDialogues(0, "God save me!");
+
     scenes[1].addChoice("Home", 0);
     scenes[1].addChoice("Castle", 2);
 
     scenes.push_back(Scene("third_scene", "Castle - Recrafted!"));
     scenes[2].addChoice("Jungle", 1);
     scenes[2].addChoice("Home", 0);
+}
+
+void GameManager::loadCharacter()
+{
+    std::cout << "Load all characters!" << std::endl;
+    characters.push_back(Character("Character 1", "Description of character 1"));
+    characters.push_back(Character("Character 2", "Description of character 2"));
 }

@@ -5,6 +5,7 @@
 #include <vector>
 #include "Scene.h"
 #include "InputHandler.h"
+#include "Character.h"
 
 class GameManager
 {
@@ -13,6 +14,7 @@ class GameManager
         int current_scene_index {};
         bool running_state {};
         std::vector<Scene> scenes {};
+        std::vector<Character> characters {};
 
     public:
         GameManager();
@@ -25,6 +27,7 @@ class GameManager
         void pauseGame();
         void exitGame();
         void loadScene();
+        void loadCharacter();
 
 };
 
