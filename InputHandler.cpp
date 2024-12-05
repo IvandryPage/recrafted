@@ -10,7 +10,7 @@ std::string InputHandler::getInput() { return input; }
 int InputHandler::getSanitizedInput() { return sanitized_input; }
 void InputHandler::setSanitizedInput(int sanitized_input_param) { sanitized_input = sanitized_input_param; }
 
-std::string InputHandler::getPlayerInput(std::vector<std::string>& choices) 
+void InputHandler::getPlayerInput(std::vector<std::string>& choices) 
 {
     std::getline(std::cin, input);
     
@@ -19,8 +19,6 @@ std::string InputHandler::getPlayerInput(std::vector<std::string>& choices)
         std::cout << "Input is not valid!" << std::endl;
         this->getPlayerInput(choices);
     }
-
-    return input;
 }
 
 bool InputHandler::validateInput(std::vector<std::string>& choices)
@@ -32,11 +30,11 @@ bool InputHandler::validateInput(std::vector<std::string>& choices)
     }
 
     if(std::isdigit(input[0]))
-        setSanitizedInput(std::stoi(input.substr(0, 1)));
+        setSanitizedInput((std::stoi(input.substr(0, 1)) - 1));
     else
         sanitizeInput(choices);
 
-    if (sanitized_input > std::size(choices) || sanitized_input < 0)
+    if (sanitized_input >= std::size(choices) || sanitized_input < 0)
     {
         is_valid = false;
         return false;
@@ -53,12 +51,9 @@ void InputHandler::sanitizeInput(std::vector<std::string> choices)
     for(int i {}; i < std::size(choices); i++ )
     {
         std::transform(choices[i].begin(), choices[i].end(), choices[i].begin(), ::tolower);
-        std::cout << choices[i] << " = ";
-        std::cout << input << std::endl;
 
         if(choices[i].find(input) != std::string::npos)
         {
-            std::cout << i << std::endl;
             sanitized_input = i;
             break;
         }

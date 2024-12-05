@@ -20,7 +20,7 @@ void Scene::display()
     
     for(int i{}; i < std::size(choices); i++)
     {
-        std::cout << '(' << i << ')';
+        std::cout << '(' << i+1 << ')';
         std::cout << choices[i] << std::endl;
     }
 }

@@ -27,7 +27,7 @@ class InputHandler
         bool getIsValid();
         void setIsValid(bool is_valid_param);
 
-        std::string getPlayerInput(std::vector<std::string>& choices);
+        void getPlayerInput(std::vector<std::string>& choices);
 
 };
 

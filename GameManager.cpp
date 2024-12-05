@@ -18,7 +18,7 @@ void GameManager::startGame(InputHandler* inputHandler)
         displayScene();
         inputHandler->getPlayerInput(scenes[current_scene_index].getChoices());
 
-        current_scene_index = scenes[current_scene_index].getNextScenes()[inputHandler->getSanitizedInput()];
+        current_scene_index = (inputHandler->getSanitizedInput() >= 0) ? scenes[current_scene_index].getNextScenes()[inputHandler->getSanitizedInput()] : current_scene_index;
         nextScene(current_scene_index);
     }
 }
@@ -39,9 +39,7 @@ void GameManager::pauseGame()
 
 void GameManager::displayScene()
 {
-    // system("clear");
-
-    std::cout << "\n\n";
+    system("clear");
     scenes[current_scene_index].display();
 }
 
@@ -53,11 +51,15 @@ void GameManager::nextScene(int scene_index)
 void GameManager::loadScene()
 {
     std::cout << "Load all scene data!" << std::endl;
-    scenes.push_back(Scene("start_scene", "Introduction - Recrafted!"));
-    scenes.push_back(Scene("second_scene", "Introduction 2 - Recrafted!"));
-
+    scenes.push_back(Scene("start_scene", "Home - Recrafted!"));
     scenes[0].addChoice("Go", 1);
     scenes[0].addChoice("Stay", 0);
+
+    scenes.push_back(Scene("second_scene", "Jungle - Recrafted!"));
     scenes[1].addChoice("Home", 0);
-    scenes[1].addChoice("Castle", 1);
+    scenes[1].addChoice("Castle", 2);
+
+    scenes.push_back(Scene("third_scene", "Castle - Recrafted!"));
+    scenes[2].addChoice("Jungle", 1);
+    scenes[2].addChoice("Home", 0);
 }
