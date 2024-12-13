@@ -5,6 +5,7 @@
 #include <vector>
 #include <chrono>
 #include <thread>
+#include "Color.h"
 
 #define TYPE_SPEED 50
 
@@ -21,6 +22,8 @@ class Animation
         ~Animation();
 
         static void type(std::string line);
+        static void changeColor(Color color);
+        static void resetColor();
         void playAnimation();
 };
 

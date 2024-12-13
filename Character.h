@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Animation.h"
+#include "Color.h"
 
 class Character
 {
