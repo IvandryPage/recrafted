@@ -12,12 +12,19 @@ void Animation::type(std::string line)
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 }
 
+void Animation::type(std::string line, Color color)
+{
+    Animation::changeColor(color);
+    Animation::type(line);
+    Animation::resetColor();
+}
+
 void Animation::changeColor(Color color)
 {
-    std::cout << "\033[" << static_cast<int>(color) << 'm';
+    std::cout << "\033[" << color << 'm';
 }
 
 void Animation::resetColor()
 {
-    std::cout << "\033[" << static_cast<int>(Color::WHITE) << 'm';
+    std::cout << "\033[" << Color::WHITE << 'm';
 }

@@ -22,6 +22,7 @@ class Animation
         ~Animation();
 
         static void type(std::string line);
+        static void type(std::string line, Color color);
         static void changeColor(Color color);
         static void resetColor();
         void playAnimation();

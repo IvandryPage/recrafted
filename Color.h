@@ -1,7 +1,7 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-enum class Color : int 
+enum Color 
 {
     BLACK = 30,
     RED = 31,
