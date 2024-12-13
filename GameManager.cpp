@@ -72,6 +72,6 @@ void GameManager::loadScene()
 void GameManager::loadCharacter()
 {
     std::cout << "Load all characters!" << std::endl;
-    characters.push_back(Character("Character 1", "Description of character 1"));
-    characters.push_back(Character("Character 2", "Description of character 2"));
+    characters.push_back(Character("Ivandry", "20 years old boy who loves programming"));
+    characters.push_back(Character("Eva", "19 years old girl who loves sleeping"));
 }

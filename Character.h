@@ -2,6 +2,7 @@
 #define CHARACTER_H
 
 #include <iostream>
+#include "Animation.h"
 
 class Character
 {

@@ -10,5 +10,6 @@ Character::Character(std::string name_param, std::string description_param)
 
 void Character::speak(std::string line)
 {
-    std::cout << name << " : " << line << std::endl;
+    std::cout << name << " : ";
+    Animation::type(line);
 }

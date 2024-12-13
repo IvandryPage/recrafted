@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "InputHandler.h"
 #include "Character.h"
+#include "Animation.h"
 
 class GameManager
 {
