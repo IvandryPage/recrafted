@@ -7,6 +7,7 @@
 #include "InputHandler.h"
 #include "Character.h"
 #include "Animation.h"
+#include "Frames.h"
 
 class GameManager
 {

@@ -15,10 +15,11 @@ class Animation
     private:
         std::vector<std::string> frames;
         int frames_per_second;
+        int duration;
         int current_frame;
 
     public:
-        Animation(std::vector<std::string> frames_param, int frames_per_second);
+        Animation(std::vector<std::string> frames_param, int frames_per_second_param, int duration_param);
         ~Animation();
 
         static void type(std::string line);

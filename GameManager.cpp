@@ -14,6 +14,13 @@ void GameManager::startGame(InputHandler* inputHandler)
     running_state = true;
     std::cout << "Recrafted - The Love Rewritten" << std::endl;
     std::cout << "Loading.. animation" << std::endl;
+    
+    // There must be better implementation for this, but for right now this is enough
+    {
+        Animation loading (Frames::Loading, 4, 4);
+        loading.playAnimation();
+    }
+    
     while(running_state)
     {
         displayScene();
