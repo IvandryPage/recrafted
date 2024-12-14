@@ -46,18 +46,33 @@ bool InputHandler::validateInput(std::vector<std::string>& choices)
 
 void InputHandler::sanitizeInput(std::vector<std::string> choices)
 {
+    sanitized_input = -1;
     std::transform(input.begin(), input.end(), input.begin(), ::tolower);
 
+    for(std::string& choice : choices)
+        std::transform(choice.begin(), choice.end(), choice.begin(), ::tolower);
+    
     for(int i {}; i < std::size(choices); i++ )
     {
-        std::transform(choices[i].begin(), choices[i].end(), choices[i].begin(), ::tolower);
 
         if(choices[i].find(input) != std::string::npos)
         {
-            sanitized_input = i;
-            break;
+            bool is_unique = true;
+            for(int j {};  j < std::size(choices); j++)
+            {                
+                if(j != i && choices[j].find(input) != std::string::npos)
+                {
+                    is_unique = false;
+                    break;
+                }
+            }
+
+            if(is_unique)
+            {
+                sanitized_input = i;
+                break;
+            }
         }
 
-        sanitized_input = -1;
     }
 }
