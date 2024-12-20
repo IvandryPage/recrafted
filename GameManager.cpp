@@ -17,10 +17,20 @@ void GameManager::startGame(InputHandler* inputHandler)
     while(running_state)
     {
         displayScene();
-        inputHandler->getPlayerInput(scenes[current_scene_index].getChoices());
-
-        current_scene_index = (inputHandler->getSanitizedInput() >= 0) ? scenes[current_scene_index].getNextScenes()[inputHandler->getSanitizedInput()] : current_scene_index;
-        nextScene(current_scene_index);
+        
+        if(std::size(scenes[current_scene_index].getChoices()) != 0)
+        {
+            inputHandler->getPlayerInput(scenes[current_scene_index].getChoices());
+            current_scene_index = (inputHandler->getSanitizedInput() >= 0) ? scenes[current_scene_index].getNextScenes()[inputHandler->getSanitizedInput()] : current_scene_index;
+        }
+        else
+        {
+            if(current_scene_index < std::size(scenes))
+                current_scene_index++;
+        }
+        
+        if(!scenes[current_scene_index].getIsEnding())
+            nextScene(current_scene_index);
     }
 }
 
@@ -52,21 +62,6 @@ void GameManager::nextScene(int scene_index)
 void GameManager::loadScene()
 {
     std::cout << "Load all scene data!" << std::endl;
-    scenes.push_back(Scene("start_scene", "Home - Recrafted!"));
-    scenes[0].addChoice("Go", 1);
-    scenes[0].addChoice("Stay", 0);
-
-    scenes.push_back(Scene("second_scene", "Jungle - Recrafted!"));
-    scenes[1].addDialogues(0, "EMERGENCY!");
-    scenes[1].addDialogues(1, "Status?");
-    scenes[1].addDialogues(0, "God save me!");
-
-    scenes[1].addChoice("Home", 0);
-    scenes[1].addChoice("Castle", 2);
-
-    scenes.push_back(Scene("third_scene", "Castle - Recrafted!"));
-    scenes[2].addChoice("Jungle", 1);
-    scenes[2].addChoice("Home", 0);
 }
 
 void GameManager::loadCharacter()

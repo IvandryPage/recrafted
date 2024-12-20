@@ -1,10 +1,11 @@
 #include "Scene.h"
 
 Scene::Scene() = default;
-Scene::Scene(std::string title_param, std::string description_param)
+Scene::Scene(std::string title_param, std::string description_param, bool is_ending_param)
 {
     title = title_param;
     description = description_param;
+    is_ending = is_ending_param;
 }
 
 Scene::~Scene() = default;
@@ -21,10 +22,18 @@ void Scene::display(std::vector<Character> characters)
     if(std::size(dialogues) != 0)
         displayDialogues(characters);
     
-    for(int i{}; i < std::size(choices); i++)
+    if(std::size(choices) != 0)
     {
-        std::cout << '(' << i+1 << ')';
-        std::cout << choices[i] << std::endl;
+        std::cout << prompt << std::endl;
+        for(int i{}; i < std::size(choices); i++)
+        {
+            std::cout << '(' << i+1 << ')';
+            std::cout << choices[i] << std::endl;
+        }
+    }
+    else
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
 
@@ -45,4 +54,9 @@ void Scene::addChoice(const std::string &choice, int next_scene_index)
 void Scene::addDialogues(int character_index, const std::string line)
 {
     dialogues.push_back(Dialogue(character_index, line));
+}
+
+void Scene::setPrompt(std::string prompt_param)
+{
+    prompt = prompt_param;
 }
