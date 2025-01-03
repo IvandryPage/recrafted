@@ -12,11 +12,11 @@ class Character
     private:
         std::string name;
         std::string description;
-        Color character_color;
+        Color::ColorName character_color;
 
     public:
         Character();
-        Character(std::string name_param, std::string description_param, Color character_color_param);
+        Character(std::string name_param, std::string description_param, Color::ColorName character_color_param);
         ~Character();
         void speak(std::string line);
 

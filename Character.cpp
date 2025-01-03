@@ -2,7 +2,7 @@
 
 Character::Character() = default;
 Character::~Character() = default;
-Character::Character(std::string name_param, std::string description_param, Color character_color_param)
+Character::Character(std::string name_param, std::string description_param, Color::ColorName character_color_param)
 {
     name = name_param;
     description = description_param;

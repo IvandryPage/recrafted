@@ -13,14 +13,12 @@ void GameManager::startGame(InputHandler* inputHandler)
 {
     running_state = true;
     std::cout << "Recrafted - The Love Rewritten" << std::endl;
-    std::cout << "Loading.. animation" << std::endl;
+    std::cout << "Loading.." << std::endl;
     
-    // There must be better implementation for this, but for right now this is enough
     {
-        Animation loading (Frames::Loading, 4, 4);
-        loading.playAnimation();
+        Animation loading (Frames::Loading, 4, 4, true, 3, 10);
     }
-    
+
     while(running_state)
     {
         displayScene();
@@ -47,7 +45,11 @@ void GameManager::pauseGame()
 
 void GameManager::displayScene()
 {
-    system("clear");
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
     scenes[current_scene_index].display(characters);
 }
 
@@ -79,6 +81,6 @@ void GameManager::loadScene()
 void GameManager::loadCharacter()
 {
     std::cout << "Load all characters!" << std::endl;
-    characters.push_back(Character("Ivandry", "20 years old boy who loves programming", Color::BRIGHT_BLUE));
-    characters.push_back(Character("Eva", "19 years old girl who loves sleeping", Color::BRIGHT_RED));
+    characters.push_back(Character("Ivandry", "20 years old boy who loves programming", Color::BLUE));
+    characters.push_back(Character("Eva", "19 years old girl who loves sleeping", Color::RED));
 }
