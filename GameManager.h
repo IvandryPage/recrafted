@@ -7,6 +7,7 @@
 #include "InputHandler.h"
 #include "Character.h"
 #include "CharactersIndex.h"
+#include "ScenesIndex.h"
 
 class GameManager
 {
@@ -23,7 +24,8 @@ class GameManager
 
         void startGame(InputHandler* inputHandler);
         void displayScene();
-        void nextScene(int choice_index);
+        void nextScene();
+        void getUserInput(InputHandler* inputHandler);
 
         void pauseGame();
         void exitGame();

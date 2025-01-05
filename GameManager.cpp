@@ -17,22 +17,9 @@ void GameManager::startGame(InputHandler* inputHandler)
         displayScene();
         
         if(std::size(scenes[current_scene_index].getChoices()) != 0)
-        {
-            inputHandler->getPlayerInput(scenes[current_scene_index].getChoices());
-            current_scene_index = (inputHandler->getSanitizedInput() >= 0) ? scenes[current_scene_index].getNextScenes()[inputHandler->getSanitizedInput()] : current_scene_index;
-        }
+            getUserInput(inputHandler);
         else
-        {
-            if (current_scene_index != 0) // Intro scene should not wait for user to enter
-                std::cin.get();
-            if(current_scene_index < std::size(scenes) - 1)
-                current_scene_index++;
-            else
-                exitGame();
-        }
-        
-        // if(!scenes[current_scene_index].getIsEnding())
-        //     nextScene(current_scene_index);
+            nextScene();
     }
 }
 
@@ -56,16 +43,29 @@ void GameManager::displayScene()
     scenes[current_scene_index].display(characters);
 }
 
-// void GameManager::nextScene(int scene_index)
-// {
-//     std::cout << "Change scene!" << std::endl;
-// }
+void GameManager::getUserInput(InputHandler* inputHandler)
+{
+    inputHandler->getPlayerInput(scenes[current_scene_index].getChoices());
+    current_scene_index = (inputHandler->getSanitizedInput() >= 0) ? scenes[current_scene_index].getNextScenes()[inputHandler->getSanitizedInput()] : current_scene_index;
+}
+
+void GameManager::nextScene()
+{
+    if(scenes[current_scene_index].getNextScene() == -1)
+        current_scene_index++;
+    else
+        current_scene_index = scenes[current_scene_index].getNextScene();
+
+    if(scenes[current_scene_index].getPauseAtEnd())
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+}
 
 void GameManager::loadScene()
 {
-    scenes.push_back(Scene(
-        "title_screen", 
-        R"ascii(
+    scenes.push_back(
+        Scene(
+            "title_screen", 
+            R"ascii(
                ______                                ___                   _ 
               (_____ \                              / __) _               | |
                _____) )  ____   ____   ____   ____ | |__ | |_    ____   _ | |
@@ -77,17 +77,63 @@ void GameManager::loadScene()
                            |  |__|[__   |   |  |\  /[__   [__)[__ |  |[__) |   |    |  [__ |\ |
                            |  |  |[___  |___|__| \/ [___  |  \[___|/\||  \_|_  |    |  [___| \|
                                                                                                                                                                                                                                                
-        )ascii"
-    ));
+            )ascii"
+        )
+        .setNextScene(1) // should be the save file
+    );
 
     scenes.push_back(
         Scene(
-            "prologue",
-            "Description"
+            "prologue_1",
+            "Aku selalu merasa asing di dunia ini. Semua orang tampak tau apa yang mereka inginkan, kecuali aku.\n"
+            "Di jurusan ini, Sistem Informasi, aku bahkan tidak yakin apakah aku benar-benar ingin di sini.\n"
+            "Semua orang mengatakan bahwa ini adalah pilihan yang baik, bahwa coding adalah masa depan.\n"
         )
-        .setPrompt("prompt")
-        .addChoice("choice", 0)
-        .addDialogues(Characters::GALANG, "Line")
+        .addDialogue(Characters::EVA, "Aku merasa terjebak, bener gak yaa aku ngambil jurusan ini?")
+        .addDialogue(Characters::EVA, "Ini keinginanku atau ini yang diinginkan orang lain dariku?")
+        .addDialogue(Characters::EVA, "Apa yang akan terjadi jika aku tidak melangkah ke dunia coding?")
+        .addDialogue(Characters::EVA, "Apa tujuanku masih bisa tercapai?")
+    );
+
+    scenes.push_back(
+        Scene(
+            "prologue_2",
+            "Semuanya berubah ketika aku bertemu dengannya -- "
+            "Galang, \n"
+            "yang membuka mataku terhadap dunia yang tidak pernah aku pikirkan sebelumnya.\n"
+            "Di ruang kelas setelah matkul coding"
+        )
+        .addDialogue(Characters::GALANG, "Halo Eva, aku Galang. Tadi aku ga sengaja liatin kamu, kamu kayak kesulitan ngikuti matkul coding. Kamu gapapa?")
+        .addDialogue(Characters::EVA, "Ohh halo, iya aku belum paham apa-apa. Pusinggg...")
+        .addDialogue(Characters::GALANG, "Kamu mau aku ajarin?")
+
+        .setPrompt("Apa yang akan aku lakukan?")
+        .addChoice("Terima", Scenes::PROLOGUE_3_1)
+        .addChoice("Tolak", Scenes::PROLOGUE_3_2)
+    );
+
+    scenes.push_back(
+        Scene(
+            "prologue_3.1",
+            "Aku merasa ragu ketika dia menawarkan diri untuk mengajariku.\n"
+            "Apa dia benar-benar ingin membantuku apa hanya merasa kasihan kepadaku?\n"
+        )
+        .addDialogue(Characters::EVA, "Kamu mau ngajarin aku?")
+        .addDialogue(Characters::GALANG, "Yaa kalo kamu mau sihh")
+        .addDialogue(Characters::EVA, "Hmm... tapi aku bener-bener dari nol yaa")
+        .addDialogue(Characters::GALANG, "Amann ajaa. Kita atur jadwalnyaa")
+        .setNextScene(Scenes::PROLOGUE_4_1)
+    );
+
+    scenes.push_back(
+        Scene(
+            "prologue_3.2",
+            "Aku merasa ragu ketika dia menawarkan diri untuk mengajariku.\n"
+            "Aku takut aku mengecewakan karena aku nggak bisa-bisa."
+        )
+        .addDialogue(Characters::EVA, "Hmm.. kayaknya nggak dulu dehh, aku belajar sendiri aja dulu")
+        .addDialogue(Characters::GALANG, "Ohh okayy, kalo kamu suatu saat berubah pikiran, bilang aja ya")
+        .setNextScene(Scenes::PROLOGUE_4_2)
     );
 }
 
