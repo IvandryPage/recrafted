@@ -12,8 +12,6 @@ GameManager::~GameManager() = default;
 void GameManager::startGame(InputHandler* inputHandler)
 {
     running_state = true;
-    std::cout << "Recrafted - The Love Rewritten" << std::endl;
-    std::cout << "Loading.. animation" << std::endl;
     while(running_state)
     {
         displayScene();
@@ -25,18 +23,22 @@ void GameManager::startGame(InputHandler* inputHandler)
         }
         else
         {
-            if(current_scene_index < std::size(scenes))
+            if (current_scene_index != 0) // Intro scene should not wait for user to enter
+                std::cin.get();
+            if(current_scene_index < std::size(scenes) - 1)
                 current_scene_index++;
+            else
+                exitGame();
         }
         
-        if(!scenes[current_scene_index].getIsEnding())
-            nextScene(current_scene_index);
+        // if(!scenes[current_scene_index].getIsEnding())
+        //     nextScene(current_scene_index);
     }
 }
 
 void GameManager::exitGame()
 {
-    std::cout << "Exit Game!" << std::endl;
+    std::cout << "The End!" << std::endl;
     exit(0);
 }
 
@@ -54,19 +56,43 @@ void GameManager::displayScene()
     scenes[current_scene_index].display(characters);
 }
 
-void GameManager::nextScene(int scene_index)
-{
-    std::cout << "Change scene!" << std::endl;
-}
+// void GameManager::nextScene(int scene_index)
+// {
+//     std::cout << "Change scene!" << std::endl;
+// }
 
 void GameManager::loadScene()
 {
-    std::cout << "Load all scene data!" << std::endl;
+    scenes.push_back(Scene(
+        "title_screen", 
+        R"ascii(
+               ______                                ___                   _ 
+              (_____ \                              / __) _               | |
+               _____) )  ____   ____   ____   ____ | |__ | |_    ____   _ | |
+              (_____ (  / _  ) / ___) / ___) / _  ||  __)|  _)  / _  ) / || |
+                    | |( (/ / ( (___ | |    ( ( | || |   | |__ ( (/ / ( (_| |
+                    |_| \____) \____)|_|     \_||_||_|    \___) \____) \____|
+              
+                          ___      ___       __      ___   __  ___     __  _  ___  ___  ___   
+                           |  |__|[__   |   |  |\  /[__   [__)[__ |  |[__) |   |    |  [__ |\ |
+                           |  |  |[___  |___|__| \/ [___  |  \[___|/\||  \_|_  |    |  [___| \|
+                                                                                                                                                                                                                                               
+        )ascii"
+    ));
+
+    scenes.push_back(
+        Scene(
+            "prologue",
+            "Description"
+        )
+        .setPrompt("prompt")
+        .addChoice("choice", 0)
+        .addDialogues(Characters::GALANG, "Line")
+    );
 }
 
 void GameManager::loadCharacter()
 {
-    std::cout << "Load all characters!" << std::endl;
     characters.push_back(Character(
         "Galang", 
         "Cowok 20 tahun yang suka coding, musik, dan fotografi. Pake kacamata "

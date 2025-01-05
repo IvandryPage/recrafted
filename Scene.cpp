@@ -45,18 +45,23 @@ void Scene::displayDialogues(std::vector<Character> characters)
     }
 }
 
-void Scene::addChoice(const std::string &choice, int next_scene_index)
+Scene& Scene::addChoice(const std::string &choice, int next_scene_index)
 {
     choices.push_back(choice);
     next_scenes.push_back(next_scene_index);
+
+    return *this;
 }
 
-void Scene::addDialogues(int character_index, const std::string line)
+Scene& Scene::addDialogues(int character_index, const std::string line)
 {
     dialogues.push_back(Dialogue(character_index, line));
+
+    return *this;
 }
 
-void Scene::setPrompt(std::string prompt_param)
+Scene& Scene::setPrompt(std::string prompt_param)
 {
     prompt = prompt_param;
+    return *this;
 }

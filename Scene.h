@@ -27,9 +27,9 @@ class Scene
         bool getIsEnding();
         void display(std::vector<Character> characters);
         void displayDialogues(std::vector<Character> characters);
-        void addChoice(const std::string &choice, int next_scene_index);
-        void addDialogues(int character_index, const std::string line);
-        void setPrompt(std::string prompt_param);
+        Scene& addChoice(const std::string &choice, int next_scene_index);
+        Scene& addDialogues(int character_index, const std::string line);
+        Scene& setPrompt(std::string prompt_param);
         std::vector<std::string>& getChoices();
         std::vector<int> getNextScenes();
 };
