@@ -5,25 +5,10 @@ namespace Characters
 {
     enum CharactersIndex 
     {
-        GALANG,
         EVA,
+        GALANG,
         YOLA,
         FIA,
-        MAULANA,
-        AWAN,
-        INTAN,
-        KRIS,
-        YULI,
-        ANA,
-        DIKA,
-        RAYS,
-        HABIBI,
-        SYA,
-        VIA,
-        SIPA,
-        AZKIA,
-        AYU,
-        ROS,
         CHARACTERS_COUNT
     };
 }

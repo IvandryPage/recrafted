@@ -14,6 +14,7 @@ class GameManager
 
     private:
         int current_scene_index {};
+        std::vector<int> user_choices {};
         bool running_state {};
         std::vector<Scene> scenes {};
         std::vector<Character> characters {};
