@@ -8,12 +8,15 @@
 #include "Character.h"
 #include "Animation.h"
 #include "Frames.h"
+#include "CharactersIndex.h"
+#include "ScenesIndex.h"
 
 class GameManager
 {
 
     private:
         int current_scene_index {};
+        std::vector<int> user_choices {};
         bool running_state {};
         std::vector<Scene> scenes {};
         std::vector<Character> characters {};
@@ -24,7 +27,8 @@ class GameManager
 
         void startGame(InputHandler* inputHandler);
         void displayScene();
-        void nextScene(int choice_index);
+        void nextScene();
+        void getUserInput(InputHandler* inputHandler);
 
         void pauseGame();
         void exitGame();
