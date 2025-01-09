@@ -16,9 +16,12 @@ void GameManager::startGame(InputHandler* inputHandler)
     while(running_state)
     {
         displayScene();
+
+        if (scenes[current_scene_index].getPauseAtEnd())
         {
-            Animation loading (Frames::Loading, 4, 4, true, 3, 10);
+            Animation loading (Frames::Loading, 4, 4, true, 2, 0);
         }
+
         if(current_scene_index < std::size(scenes))
         {
             if(std::size(scenes[current_scene_index].getChoices()) != 0)
@@ -55,9 +58,6 @@ void GameManager::displayScene()
         system("clear");
     #endif
     scenes[current_scene_index].display(characters);
-
-    if (scenes[current_scene_index].getPauseAtEnd())
-        std::this_thread::sleep_for(std::chrono::seconds(3));
 }
 
 void GameManager::getUserInput(InputHandler* inputHandler)
@@ -97,6 +97,7 @@ void GameManager::loadScene()
                                                                                                                                                                                                                                                
             )ascii"
         )
+        .setIsTitle(true)
         .setNextScene(1) // should be the save file
     );
 
@@ -177,13 +178,13 @@ void GameManager::loadScene()
         )
         .addDialogue(Characters::EVA, "Aku  coba deh belajar sama dia. Enaknya aku chat atau bilang langsung ya")
         .setPrompt("Aku hubungi lewat apa ya?")
-        .addChoice("Chat : cari nomor dulu", Scenes::PROLOGUE_5_1)
-        .addChoice("Langsung : nunggu besok", Scenes::PROLOGUE_5_2)
+        .addChoice("Chat : cari nomor dulu", Scenes::PROLOGUE_5)
+        .addChoice("Langsung : nunggu besok", Scenes::PROLOGUE_7_2)
     );
 
     scenes.push_back(
         Scene(
-            "prologue_5.1",
+            "prologue_5",
             "Sesampainya di rumah, aku memutuskan untuk chat Galang.\n" 
             "Aku harus mencari nomornya lebih dulu"
         )

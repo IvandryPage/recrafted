@@ -25,7 +25,9 @@ class Animation
         int frames_per_second {};
         int duration {};
         int current_frame {};
-        short row{};
+        short row{};        
+        short prev_row{};
+        short prev_col{};
         short column{};
         bool cursor_focused {};
 
@@ -37,10 +39,10 @@ class Animation
         static void type(std::string line, Color::ColorName color);
         static void changeColor(Color::ColorName color);
         static void resetColor();
+        void setCursorPosition(short row_param, short column_param);
+        void getPrevCursorPosition();
         void focusCursor();
         void playAnimation();
-        void setCursorPosition();
-        void getCursorPosition();
         void setRawMode(bool enable);
         
 };

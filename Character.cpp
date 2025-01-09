@@ -12,8 +12,9 @@ Character::Character(std::string name_param, std::string description_param, Colo
 void Character::speak(std::string line)
 {
     Animation::changeColor(character_color);
-    std::cout << std::left << std::setw(10) << name << " : " << std::flush;
+    std::cout << std::left << std::setw(10) << std::setfill(' ') << name;
     Animation::resetColor();
+    std::cout << " : " << std::flush;
     
     Animation::type(line);
 }

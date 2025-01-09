@@ -8,6 +8,7 @@ Scene::Scene(std::string title_param, std::string description_param, bool is_end
     is_ending = is_ending_param;
     next_scene = -1;
     pause_at_end = true;
+    is_title = false;
 }
 
 Scene::~Scene() = default;
@@ -20,14 +21,25 @@ std::vector<int> Scene::getNextScenes() { return next_scenes; }
 
 void Scene::display(std::vector<Character> characters)
 {
-    std::cout << title << std::endl;
-    std::cout << description << std::endl;
+    if(!is_title)
+    {
+        displaySeparator('=', "Narrator");
+        Animation::type(description);
+    }
+    else
+        std::cout << description << std::endl;
+
 
     if(std::size(dialogues) != 0)
+    {
+        displaySeparator('-', "");
         displayDialogues(characters);
+    }
     
     if(std::size(choices) != 0)
     {
+        displaySeparator('-', "Pilihan");
+
         std::cout << prompt << std::endl;
         for(int i{}; i < std::size(choices); i++)
         {
@@ -35,6 +47,14 @@ void Scene::display(std::vector<Character> characters)
             std::cout << choices[i] << std::endl;
         }
     }
+}
+
+void Scene::displaySeparator(char separator_character, std::string separator_title)
+{
+    Animation::changeColor(Color::GREY);
+    std::cout << "\n" << std::setw(45) << std::setfill(separator_character) << "";
+    std::cout << std::left << std::setw(45 + separator_title.length()) << separator_title << "\n\n";
+    Animation::resetColor();
 }
 
 void Scene::displayDialogues(std::vector<Character> characters)
@@ -68,5 +88,11 @@ Scene& Scene::setPrompt(std::string prompt_param)
 Scene& Scene::setNextScene(int next_scene_param)
 {
     next_scene = next_scene_param;
+    return *this;
+}
+
+Scene& Scene::setIsTitle(bool is_title_param)
+{
+    is_title = is_title_param;
     return *this;
 }

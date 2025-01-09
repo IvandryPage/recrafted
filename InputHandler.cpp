@@ -12,6 +12,7 @@ void InputHandler::setSanitizedInput(int sanitized_input_param) { sanitized_inpu
 
 void InputHandler::getPlayerInput(std::vector<std::string>& choices) 
 {
+    std::cout << "\n> Ketikkan pilihan Anda: ";
     std::getline(std::cin, input);
     
     if(!validateInput(choices))

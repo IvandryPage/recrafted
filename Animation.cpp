@@ -8,10 +8,15 @@ Animation::Animation(std::vector<std::string> frames_param, int frames_per_secon
     cursor_focused = cursor_focused_param;
     row = row_param;
     column = column_param;
+    getPrevCursorPosition();
     playAnimation();
+    setCursorPosition(prev_col, prev_row);
 }
 
-Animation::~Animation() = default;
+Animation::~Animation()
+{
+    setCursorPosition(prev_col, prev_row);
+}
 
 void Animation::type(std::string line)
 {
@@ -44,19 +49,48 @@ void Animation::resetColor()
 
 void Animation::focusCursor() {
     if (cursor_focused) {
-        setCursorPosition();
+        setCursorPosition(row, column);
     }
 }
 
-void Animation::setCursorPosition() {
+void Animation::getPrevCursorPosition() {
+#ifdef _WIN32
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(hConsole, &csbi);
+
+    prev_row = csbi.dwCursorPosition.Y;
+    prev_col = csbi.dwCursorPosition.X;
+#else
+    struct termios orig_term, raw_term;
+    tcgetattr(STDIN_FILENO, &orig_term);
+    raw_term = orig_term;
+    raw_term.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &raw_term);
+
+    std::cout << "\033[6n";
+    std::cout.flush();
+
+    char buffer[16];
+    read(STDIN_FILENO, buffer, sizeof(buffer));
+    sscanf(buffer, "\033[%d;%dR", &prev_row, &prev_col);
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &orig_term);
+
+    prev_row--;
+    prev_col--;
+#endif
+}
+
+void Animation::setCursorPosition(short row_param, short column_param) {
 #if defined(_WIN32)
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     if (hConsole == INVALID_HANDLE_VALUE) return;
 
-    COORD coord = {static_cast<SHORT>(column), static_cast<SHORT>(row)};
+    COORD coord = {static_cast<SHORT>(column_param), static_cast<SHORT>(row_param)};
     SetConsoleCursorPosition(hConsole, coord);
 #else
-    std::cout << "\033[" << row << ";" << column << "H";
+    std::cout << "\033[" << row_param << ";" << column_param << "H" << std::flush;
 #endif
 }
 
@@ -70,8 +104,8 @@ void Animation::playAnimation() {
     }
 }
 
-void Animation::setRawMode(bool enable) {
 #if defined(__linux__) || defined(__APPLE__)
+void Animation::setRawMode(bool enable) {
     static struct termios old_tio, new_tio;
 
     if (enable) {
@@ -82,8 +116,8 @@ void Animation::setRawMode(bool enable) {
     } else {
         tcsetattr(STDIN_FILENO, TCSANOW, &old_tio);
     }
-#endif
 }
+#endif
 
 #ifdef _WIN32
 void enableVirtualTerminalProcessing() {

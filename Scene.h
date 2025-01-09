@@ -21,6 +21,7 @@ class Scene
         std::vector<Dialogue> dialogues {};
         bool is_ending{};
         bool pause_at_end{};
+        bool is_title{};
 
     public:
         Scene();
@@ -35,8 +36,10 @@ class Scene
         Scene& addDialogue(int character_index, const std::string line);
         Scene& setPrompt(std::string prompt_param);
         Scene& setNextScene(int next_scene_param);
+        Scene& setIsTitle(bool is_title_param);
         std::vector<std::string>& getChoices();
         std::vector<int> getNextScenes();
+        void displaySeparator(char separator_character, std::string separator_title);
 };
 
 #endif

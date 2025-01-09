@@ -10,6 +10,7 @@ std::string Color::getColorCode(ColorName color)
         case RED: return "255;0;0";
         case BLUE: return "0;0;255";
         case GREEN: return "0;255;0";
+        case GREY: return "120;120;120";
     }
     
     return "255;255;255";

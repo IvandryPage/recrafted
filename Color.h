@@ -5,7 +5,7 @@
 
 namespace Color
 {
-    enum ColorName { BLACK, WHITE, RED, BLUE, GREEN, DEFAULT };
+    enum ColorName { BLACK, WHITE, RED, BLUE, GREEN, GREY, DEFAULT };
 
     std::string getColorCode(ColorName color);
 }
