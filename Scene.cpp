@@ -51,7 +51,7 @@ void Scene::display(std::vector<Character> characters)
 
 void Scene::displaySeparator(char separator_character, std::string separator_title)
 {
-    Animation::changeColor(Color::GREY);
+    Animation::changeColor(Color::RAISIN_BLACK);
     std::cout << "\n" << std::setw(45) << std::setfill(separator_character) << "";
     std::cout << std::left << std::setw(45 + separator_title.length()) << separator_title << "\n\n";
     Animation::resetColor();

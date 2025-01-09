@@ -272,25 +272,25 @@ void GameManager::loadCharacter()
         "Eva", 
         "Cewek 19 tahun yang suka scroll TikTok dan tidur, tipe orang yang independen. "
         "Lebih sering introvert, tapi kadang juga ekstrovert. Lagi ngerasa kecewa karena jurusannya nggak sesuai.",
-        Color::RED
+        Color::SKY_MAGENTA
     ));
     
     characters.push_back(Character(
         "Galang", 
         "Cowok 20 tahun yang suka coding, musik, dan fotografi. Pake kacamata "
         "dan rambutnya model curtain. Orangnya kreatif dan punya rasa ingin tahu tinggi.",
-        Color::BLUE
+        Color::SAPPHIRE
     ));
 
     characters.push_back(Character(
         "Yola",
         "Cewek akuntansi yang ambis dan deket sama Eva",
-        Color::GREEN
+        Color::ORANGE
     ));
 
     characters.push_back(Character(
         "Fia",
         "Cewek ekstrovert",
-        Color::WHITE
+        Color::ORANGE
     ));
 }
