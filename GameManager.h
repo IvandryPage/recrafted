@@ -5,6 +5,7 @@
 #include <vector>
 #include "Scene.h"
 #include "InputHandler.h"
+#include "Timer.h"
 #include "Character.h"
 #include "Animation.h"
 #include "Frames.h"
@@ -26,6 +27,7 @@ class GameManager
         ~GameManager();
 
         void startGame(InputHandler* inputHandler);
+        bool getState();
         void displayScene();
         void nextScene();
         void getUserInput(InputHandler* inputHandler);

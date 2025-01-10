@@ -12,7 +12,7 @@ namespace Color
         AVOCADO, SKY_MAGENTA, SAPPHIRE,
         AUBURN, SAGE, ICE_BLUE,
         GRAY, VANILLA, CORAL,
-        WOOD, MAUVINE,
+        WOOD, MAUVINE, JADE,
         DEFAULT };
 
     std::string getColorCode(ColorName color);

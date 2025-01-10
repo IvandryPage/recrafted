@@ -19,7 +19,7 @@ void GameManager::startGame(InputHandler* inputHandler)
 
         if (scenes[current_scene_index].getPauseAtEnd())
         {
-            Animation loading (Frames::Loading, 4, 4, true, 2, 0);
+            Animation loading (Frames::Loading, 4, 2, true, 2, 0);
         }
 
         if(current_scene_index < std::size(scenes))
@@ -30,9 +30,7 @@ void GameManager::startGame(InputHandler* inputHandler)
                 nextScene();
         }
         else
-        {
-            exitGame();
-        }
+            running_state = false;
     }
 }
 
@@ -78,6 +76,8 @@ void GameManager::nextScene()
         std::this_thread::sleep_for(std::chrono::seconds(2));
 }
 
+bool GameManager::getState() { return running_state; }
+
 void GameManager::loadScene()
 {
     scenes.push_back(
@@ -98,7 +98,7 @@ void GameManager::loadScene()
             )ascii"
         )
         .setIsTitle(true)
-        .setNextScene(1) // should be the save file
+        .setNextScene(Scenes::PROLOGUE_8) // should be the save file
     );
 
     scenes.push_back(

@@ -10,7 +10,6 @@ Animation::Animation(std::vector<std::string> frames_param, int frames_per_secon
     column = column_param;
     getPrevCursorPosition();
     playAnimation();
-    setCursorPosition(prev_col, prev_row);
 }
 
 Animation::~Animation()
@@ -20,14 +19,14 @@ Animation::~Animation()
 
 void Animation::type(std::string line)
 {
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
     for(auto& character : line)
     {
         std::cout << character << std::flush;
         std::this_thread::sleep_for(std::chrono::milliseconds(TYPE_SPEED));
     }
     std::cout << std::endl;
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    std::this_thread::sleep_for(std::chrono::milliseconds(250));
 }
 
 void Animation::type(std::string line, Color::ColorName color)

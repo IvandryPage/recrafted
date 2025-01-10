@@ -15,7 +15,7 @@
 #endif
 
 
-#define TYPE_SPEED 50
+#define TYPE_SPEED 30
 
 class Animation
 {
