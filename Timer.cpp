@@ -4,6 +4,7 @@ Timer::Timer() = default;
 Timer::~Timer() = default;
 
 int Timer::getTotalElapsedTime() { return total_elapsed_time.count(); }
+void Timer::setTotalElapsedTime(std::chrono::seconds total_elapsed_time_param) { total_elapsed_time = total_elapsed_time_param; }
 
 void Timer::startTimer()
 {
@@ -24,5 +25,8 @@ void Timer::displayTime()
     int minutes = (getTotalElapsedTime() % 3600) / 60;
     int seconds = getTotalElapsedTime() % 60;
 
-    std::cout << "You've played this game for " << hours << ":" << minutes << ":" << seconds << std::endl;
+    std::cout << "You've played this game for ";
+    std::cout << std::setw(2) << std::setfill('0') << std::right << hours << ":"; 
+    std::cout << std::setw(2) << std::setfill('0') << minutes << ":";
+    std::cout << std::setw(2) << std::setfill('0') << seconds << std::endl;
 }

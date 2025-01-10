@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include "json.hpp"
 #include "Scene.h"
 #include "InputHandler.h"
 #include "Timer.h"
@@ -17,10 +19,12 @@ class GameManager
 
     private:
         int current_scene_index {};
+        int progress_index {};
         std::vector<int> user_choices {};
         bool running_state {};
         std::vector<Scene> scenes {};
         std::vector<Character> characters {};
+        Timer timer;
 
     public:
         GameManager();
@@ -36,6 +40,9 @@ class GameManager
         void exitGame();
         void loadScene();
         void loadCharacter();
+
+        void saveGame();
+        void loadGame();
 
 };
 

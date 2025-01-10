@@ -2,6 +2,7 @@
 
 GameManager::GameManager()
 {
+    loadGame();
     loadScene();
     loadCharacter();
     current_scene_index = 0;
@@ -12,6 +13,7 @@ GameManager::~GameManager() = default;
 void GameManager::startGame(InputHandler* inputHandler)
 {
     running_state = true;
+    timer.startTimer();
 
     while(running_state)
     {
@@ -32,10 +34,14 @@ void GameManager::startGame(InputHandler* inputHandler)
         else
             running_state = false;
     }
+
+    timer.stopTimer();
+    exitGame();
 }
 
 void GameManager::exitGame()
 {
+    saveGame();
     std::cout << "The End!" << std::endl;
     exit(0);
 }
@@ -46,7 +52,6 @@ void GameManager::pauseGame()
 
     std::cout << "Pause!" << std::endl;
 }
-
 
 void GameManager::displayScene()
 {
@@ -78,6 +83,34 @@ void GameManager::nextScene()
 
 bool GameManager::getState() { return running_state; }
 
+void GameManager::saveGame()
+{
+    nlohmann::json save_data {
+        {"progress_index", current_scene_index},
+        {"time_played", timer.getTotalElapsedTime()},
+        {"user_choice_history", user_choices}
+    };
+
+    std::ofstream save_file("recrafted.json");
+    save_file << save_data.dump(4);
+    save_file.close();
+}
+
+void GameManager::loadGame()
+{
+    std::ifstream file("recrafted.json");
+    if (file.is_open()) {
+        nlohmann::json save_data;
+        file >> save_data;
+        progress_index = save_data.value("progress_index", 0);
+        timer.setTotalElapsedTime(std::chrono::seconds(save_data.value("time_played", 0)));
+        user_choices = save_data.value("choices", std::vector<int>{});
+    } else {
+        progress_index = 1;
+        user_choices = {};
+    }
+}
+
 void GameManager::loadScene()
 {
     scenes.push_back(
@@ -98,7 +131,7 @@ void GameManager::loadScene()
             )ascii"
         )
         .setIsTitle(true)
-        .setNextScene(Scenes::PROLOGUE_8) // should be the save file
+        .setNextScene(progress_index)
     );
 
     scenes.push_back(
