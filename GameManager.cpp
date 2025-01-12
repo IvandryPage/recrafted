@@ -98,7 +98,7 @@ void GameManager::loadScene()
             )ascii"
         )
         .setIsTitle(true)
-        .setNextScene(Scenes::PROLOGUE_8) // should be the save file
+        .setNextScene(Scenes::PROLOGUE_9) // should be the save file
     );
 
     scenes.push_back(
@@ -262,6 +262,160 @@ void GameManager::loadScene()
         .addDialogue(Characters::EVA, "Ehh maaf yaa, aku abis kelas tadi")
         .addDialogue(Characters::GALANG, "Gapapaa santaii ajaa, lagian aku kosong kookk, mau mulai langsung aja kahh?")
         .addDialogue(Characters::EVA, "Bolehh")
+    );
+
+    scenes.push_back(
+        Scene(
+            "prologue_9",
+            "Beberapa kali dibimbing olehnyaa, aku mulai merasa nyaman dengan kehadirannya.\n"
+            "Dia tidak pernah memaksaku untuk memilih apapun, tidak pernah memintaku menjadi orang yang berbeda\n"
+            "hanya membimbingku secara perlahan hingga aku mulai melihat dunia dengan cara yang berbeda.\n\n"
+            "Namun, semakin aku mengenalnya, semakin aku merasakan ketegangan yang tak terucapkan\n"
+            "Aku meraskan sesuatu yang berbeda dari dirinya, sesuatu yang tidak bisa aku jelaskan.\n"
+            "Perasaan yang tumbuh seiap kali dia memberiku dukungan"
+        )
+        .addDialogue(Characters::EVA, "(Apa sebenarnya hubungan ini?)")
+        .addDialogue(Characters::EVA, "Apakah aku siap untuk membuka hatiku?")
+        .addDialogue(Characters::EVA, "Apakah aku ingin melibatkan orang lain dalam kebingunganku saat ini?")
+        .addDialogue(Characters::EVA, "Apakah hubungan ini benar-benar mungkin?")
+    );
+
+    scenes.push_back(
+        Scene(
+            "perasaan_1",
+            "Aku terbangun di pagi hari dengan perasaan yang campur aduk.\n"
+            "Hari ini adalah ujian pertama di semester ini, dan aku masih merasa tidak yakin dengan pilihanku.\n"
+            "Aku merasa tertinggal dan semakin jauh tertinggal."
+        )
+        .addDialogue(Characters::EVA, "Ini serius aku hari ini ujian?")
+        .addDialogue(Characters::EVA, "Rasanya aku seperti seorang pemula di tengah kumpulan ahli")
+        .addDialogue(Characters::EVA, "Apakah ini yang aku inginkan?")
+        .setPrompt("Apa yang akan aku lakukan terlebih dahulu?")
+        .addChoice("Ambil Ponsel", Scenes::PERASAAN_2_1)
+        .addChoice("Segera Bergegas", Scenes::PERASAAN_2_2)
+        .addChoice("Belajar Ulang", Scenes::PERASAAN_2_3)
+    );
+
+    scenes.push_back(
+        Scene(
+            "perasaan_2.1",
+            "Aku mengambil ponselku dan melihat pesan dari Galang. aku tersenyum tanpa sadar.\n"
+            "Dia seolah tau aku sedang cemas, pagi itu dia mengirimiku pesan. Pesan sederhana yang memberikanku rasa tenang.\n"
+        )
+        .addDialogue(Characters::GALANG, "Halo, pagi, Eva. gimana persiapannya? Kalau butuh bantuan, bilang yaa. Jangan sungkan, jangan khawatir, kamu pasti bisa")
+        .setNextScene(Scenes::PERASAAN_3)
+    );
+    
+    scenes.push_back(
+        Scene(
+            "perasaan_2.2",
+            "Aku segera mengambil peralatan mandi dan segera bersiap untuk pergi ke kampus.\n"
+            "Selama perjalanan, aku sangat takut dan khawatir aku tidak bisa mengerjakan ujian nanti.\n"
+            "Cemas sekali rasanya, menakutkan sekali perasaan berjuang sendirian ini.\n"
+        )
+        .setNextScene(Scenes::PERASAAN_3)
+    );
+    
+    scenes.push_back(
+        Scene(
+            "perasaan_2.3",
+            "Aku memutuskan untuk belajar mandiri sebelum berangkat ke kampus.\n"
+            "Hingga tak sadar waktu sudah menunjukkan pukul 9, 1 jam sebelum ujian di mulai.\n"
+            "Kepanikan menyelimuti sekujur tubuhku.\n"
+            "Aku segera bergegas ke kampus, mencemaskan akan terlambat sampai di sana.\n"
+        )
+        .addDialogue(Characters::EVA, "Weh kok udah jam seginii yang bener ajaa")
+        .addDialogue(Characters::EVA, "Telat dongg gweehhh, aaa")
+        .setNextScene(Scenes::PERASAAN_3)
+    );
+
+    scenes.push_back(
+        Scene(
+            "perasaan_3",
+            "Sepanjang perjalanan, aku memikirkan apa yang seharusnya aku lakukan dalam hidupku.\n"
+            "Aku merasa tertekan, seperti ada sesuatu yang berat di dadaku\n"
+            "Inikah yang membuatku merasa seperti orang yang terjebak?"
+        )
+    );
+
+    scenes.push_back(
+        Scene(
+            "perasaan_4",
+            "Setibanya di kelas, aku melihat Galang, Fia, dan Yola sudah ada di sana.\n"
+            "Galang terlihat duduk dengan tenang, matanya fokus pada layar. Namun, begitu melihatku, dia tersenyum\n"
+        )
+        .setPrompt("Apa yang akan aku lakukaan?")
+        .addChoice("Sapa", Scenes::PERASAAN_5_1)
+        .addChoice("Pura-pura gak liat", Scenes::PERASAAN_5_2)
+    );
+
+    scenes.push_back(
+        Scene(
+            "perasaan_5_1",
+            "Saat dia melihatku, aku langsung menyapanya seakan aku tidak mencemaskan apapun.\n"
+            "Yang padahal saat itu aku benar-benar ketakutan. Aku berusaha meyakinkan diriku, aku bisa mengerjakannya"
+        )
+        .addDialogue(Characters::EVA, "Hai")
+        .addDialogue(Characters::GALANG, "Yook, gimana aman?")
+        .addDialogue(Characters::EVA, "ehehe, enggak juga sih, tapi aku usahakan")
+        .addDialogue(Characters::GALANG, "masih belum yakin ya?")
+        .addDialogue(Characters::GALANG, "tenang aja, pasti bisa nanti! kamu kan udah belajar")
+        .addDialogue(Characters::EVA, "Semoga")
+        .setNextScene(Scenes::PERASAAN_6)
+    );
+
+    scenes.push_back(
+        Scene(
+            "perasaan_5_2",
+            "Aku menggelengkan kepala dan mencoba mengalihkan perhatianku, menuju tempat duduk yang sudah disediakan"
+        )
+        .addDialogue(Characters::EVA, "(Tentu saja aku tidak boleh terjebak pada perasaan ini)")
+    );
+
+    scenes.push_back(
+        Scene(
+            "perasaan_6",
+            "Setelah ujian berlangsung, aku merasa cukup lega karena sebagian besar bisa aku kerjakan..\n"
+            "Orang orang lain juga terlihat sama sepertiku. Yola dan Fia mendatangiku"
+        )
+        .addDialogue(Characters::YOLA, "Weyytss, gimana nihh yang udah belajar private")
+        .addDialogue(Characters::EVA, "eh apaan sihh")
+        .addDialogue(Characters::FIA, "sekelas juga udah tau kalii..")
+        .setPrompt("Apa yang akan aku lakukan?")
+        .addChoice("Mengelak", Scenes::PERASAAN_7_1)
+        .addChoice("Bilang apa adanya", Scenes::PERASAAN_7_2)
+    );
+
+    scenes.push_back(
+        Scene(
+            "perasaan_7.1", 
+            ""
+        )
+        .addDialogue(Characters::EVA, "Apaan dah, orang gak ada apa-apa")
+        .addDialogue(Characters::EVA, "Emang kalian gimana ujiannya?")
+        .addDialogue(Characters::YOLA, "Gak aman aslii, soalnyaa susah bangett woyy")
+        .addDialogue(Characters::FIA, "Apalagi akuu, pussingg tujuh keliling, kamu gimana?")
+        .addDialogue(Characters::EVA, "Ya lumayan lah, lumayan gilaa ahahaha")
+        .setNextScene(Scenes::KERAGUAN_1)
+    );
+
+    scenes.push_back(
+        Scene(
+            "perasaan_7.2",
+            ""
+        )
+        .addDialogue(Characters::EVA, "Ehehe, ngebantu banget sihh")
+        .addDialogue(Characters::YOLA, "Cinlokk kan pasti kamu hahah..")
+        .addDialogue(Characters::FIA, "Pasti gak sihh Yola")
+        .addDialogue(Characters::EVA, "eee.. enggak tau yaa")
+        .setNextScene(Scenes::KERAGUAN_1)
+    );
+
+    scenes.push_back(
+        Scene(
+            "keraguan_1",
+            ""
+        )
     );
 }
 

@@ -17,7 +17,19 @@ namespace Scenes
         PROLOGUE_6_2,
         PROLOGUE_7_1,
         PROLOGUE_7_2,
-        PROLOGUE_8
+        PROLOGUE_8,
+        PROLOGUE_9,
+        PERASAAN_1,
+        PERASAAN_2_1,
+        PERASAAN_2_2,
+        PERASAAN_2_3,
+        PERASAAN_3,
+        PERASAAN_4,
+        PERASAAN_5_1,
+        PERASAAN_5_2,
+        PERASAAN_6,
+        PERASAAN_7_1,
+        PERASAAN_7_2
     };
 }
 

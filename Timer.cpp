@@ -24,5 +24,8 @@ void Timer::displayTime()
     int minutes = (getTotalElapsedTime() % 3600) / 60;
     int seconds = getTotalElapsedTime() % 60;
 
-    std::cout << "You've played this game for " << hours << ":" << minutes << ":" << seconds << std::endl;
+    std::cout << "You've played this game for ";
+    std::cout << std::right << std::setw(2) << std::setfill('0') << hours << ":";
+    std::cout << std::setw(2) << std::setfill('0') << minutes << ":";
+    std::cout << std::setw(2) << std::setfill('0') << seconds << std::endl;
 }

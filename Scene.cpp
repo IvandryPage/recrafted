@@ -23,7 +23,8 @@ void Scene::display(std::vector<Character> characters)
 {
     if(!is_title)
     {
-        displaySeparator('=', "Narrator");
+        // displaySeparator('=', "Narrator");
+        displaySeparator('=', title);
         Animation::type(description);
     }
     else
@@ -32,7 +33,7 @@ void Scene::display(std::vector<Character> characters)
 
     if(std::size(dialogues) != 0)
     {
-        displaySeparator('-', "");
+        displaySeparator('-', "--------");
         displayDialogues(characters);
     }
     
