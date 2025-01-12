@@ -14,6 +14,8 @@
 #include "CharactersIndex.h"
 #include "ScenesIndex.h"
 
+#define SAVE_FILE_NAME "recrafted_memory.json"
+
 class GameManager
 {
 

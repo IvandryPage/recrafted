@@ -15,7 +15,7 @@ void Timer::stopTimer()
 {
     timer_running = false;
     end_time = std::chrono::steady_clock::now();
-    total_elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
+    total_elapsed_time += std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
     displayTime();
 }
 
