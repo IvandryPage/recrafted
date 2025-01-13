@@ -32,11 +32,13 @@ void GameManager::startGame(InputHandler* inputHandler)
         else
             running_state = false;
     }
+
+    if(scenes[current_scene_index].getIsEnding())
+        displayScene();
 }
 
 void GameManager::exitGame()
 {
-    std::cout << "The End!" << std::endl;
     exit(0);
 }
 
@@ -98,7 +100,7 @@ void GameManager::loadScene()
             )ascii"
         )
         .setIsTitle(true)
-        .setNextScene(Scenes::PROLOGUE_9) // should be the save file
+        .setNextScene(1) // should be the save file
     );
 
     scenes.push_back(
@@ -414,8 +416,74 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "keraguan_1",
-            ""
+            "Sesi belajar coding dengan Galang selalu menjadi waktu yang penuh ketenangan bagiku.\n"
+            "Ketika kami berdua duduk bersama di perpustakaan atau di cafe, aku merasa dunia ini hanya milik kami berdua.\n"
+            "Namun, seiring berjalannya waktu, ada perasaan yang mulai tumbuh dalam diriku. Aku mulai menyadari\n"
+            "betapa seringnya aku memikirkan dia.\n\n"
+            "Saat ini aku sedang berada di perpustakaan bersamanya, aku sedang melamun dikagetkan oleh pertanyaannya\n"
         )
+        .addDialogue(Characters::GALANG, "Eva, kamu sudah merasa lebih baik dengan jurusan ini? atau masih ragu?")
+        .addDialogue(Characters::EVA, "(aku terdiam...)")
+        .addDialogue(Characters::GALANG, "Eva?")
+        .addDialogue(Characters::EVA, "(sambil tersenyum) Aku masih mencoba menyesuaikan diri")
+    );
+
+    scenes.push_back(
+        Scene(
+            "keraguan_2",
+            "Ingin rasanya aku katakan bahwa aku merasa terjebak. aku tidak tahu apakah ini yang aku inginkan.\n"
+            "Namun aku tak ingin mengecewakannya. Kala itu dia hanya mengangguk, tetapi matanya terlihat mengerti,\n"
+            "matanya terlihat seakan dia paham sekali dengan apa yang aku rasakan."
+        )
+        .addDialogue(Characters::EVA, "(Apakah dia benar-benar tau aku sedang bergulat dengan persaan itu?)")
+        .addDialogue(Characters::EVA, "(Apakah dia tahu bahwa aku merasa dunia ini begitu berat untuk aku hadapi sendirian)")
+    );
+
+    scenes.push_back(
+        Scene(
+            "keraguan_3",
+            "Setelah hari itu, aku berpikir aku tidak ingin mengecewakannya, dia sudah begitu banyak.\n"
+            "Namun di satu sisi, aku merasa terjebak dalam jurusan ini. Aku tidak yakin aku mampu."
+        )
+        .setPrompt("Apa keputusanku?")
+        .addChoice("Lanjut kuliah", Scenes::KECEMBURUAN_1)
+        .addChoice("Mempersiapkan UTBK lagi", Scenes::ENDING_1)
+    );
+
+    scenes.push_back(
+        Scene(
+            "kecemburuan_1",
+            "Tanpa aku sadari, rasa cemburu itu mulai tumbuh setiap kali aku melihatnya berbicara dengan gadis lain\n"
+            "ada rasa yang menggelora di dadaku-perasaan tidak nyaman yang sulit aku jelaskan.\n\n"
+            "Sore itu aku melihatnya tertawa lepas dengan seroang gadis di kampus, api kecemburuan benar-benar tersulut dalam jiwaku"
+        )
+        .setPrompt("Haruskan aku ungkapkan?")
+        .addChoice("Iya", Scenes::KECEMBURUAN_2_1)
+        .addChoice("Tidak", Scenes::KECEMBURUAN_2_2)
+    );
+
+    scenes.push_back(
+        Scene(
+            "ending_1",
+            "Aku memutuskan untuk keluar kuliah tanpa mengungkapkan perasaanku kepada Galang.\n"
+            "Aku menghilang begitu saja dari dunia kampus tanpa memberinya aba-aba karena aku tau\n"
+            "akan menyakitkan baginya jika aku memberinya aba-aba\n"
+            "\nSemoga perjalananmu lebih mudah tanpa diriku."
+        )
+        .setNextScene(Scenes::END_TITLE)
+    );
+
+    scenes.push_back(
+        Scene(
+            "end_title",
+            R"ascii(
+                 ______   __ __   ____        ____   _  __   ___ 
+                /_  __/  / // /  / __/       / __/  / |/ /  / _ \
+                 / /    / _  /  / _/        / _/   /    /  / // /
+                /_/    /_//_/  /___/       /___/  /_/|_/  /____/ 
+            )ascii"
+        )
+        .setIsTitle(true)
     );
 }
 

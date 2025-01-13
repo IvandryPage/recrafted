@@ -29,7 +29,17 @@ namespace Scenes
         PERASAAN_5_2,
         PERASAAN_6,
         PERASAAN_7_1,
-        PERASAAN_7_2
+        PERASAAN_7_2,
+        KERAGUAN_1,
+        KERAGUAN_2,
+        KERAGUAN_3,
+        KECEMBURUAN_1,
+        KECEMBURUAN_2_1,
+        KECEMBURUAN_2_2,
+        ENDING_1,
+        ENDING_2,
+        ENDING_3,
+        END_TITLE
     };
 }
 
