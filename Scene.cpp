@@ -19,11 +19,12 @@ bool Scene::getPauseAtEnd() { return pause_at_end; }
 std::vector<std::string>& Scene::getChoices() { return choices; }
 std::vector<int> Scene::getNextScenes() { return next_scenes; }
 
-void Scene::display(std::vector<Character> characters)
+void Scene::display(std::vector<Character>* characters)
 {
     if(!is_title)
     {
-        displaySeparator('=', "Narrator");
+        // displaySeparator('=', "Narrator");
+        displaySeparator('=', title);
         Animation::type(description);
     }
     else
@@ -32,8 +33,13 @@ void Scene::display(std::vector<Character> characters)
 
     if(std::size(dialogues) != 0)
     {
-        displaySeparator('-', "");
+        displaySeparator('-', "--------");
         displayDialogues(characters);
+    }
+    else if(std::size(chats) != 0)
+    {
+        displaySeparator('-', "--------");
+        displayChat(characters);
     }
     
     if(std::size(choices) != 0)
@@ -43,7 +49,7 @@ void Scene::display(std::vector<Character> characters)
         std::cout << prompt << std::endl;
         for(int i{}; i < std::size(choices); i++)
         {
-            std::cout << '(' << i+1 << ')';
+            std::cout << '(' << i+1 << ')' << " ";
             std::cout << choices[i] << std::endl;
         }
     }
@@ -57,11 +63,21 @@ void Scene::displaySeparator(char separator_character, std::string separator_tit
     Animation::resetColor();
 }
 
-void Scene::displayDialogues(std::vector<Character> characters)
+void Scene::displayDialogues(std::vector<Character>* characters)
 {
     for(auto& dialogue : dialogues)
     {
-        characters[dialogue.character_index].speak(dialogue.line);
+        characters->at(dialogue.character_index).speak(dialogue.line);
+        if(!dialogue.monologue.empty())
+            std::cout << "\t\t" << '"' << dialogue.monologue << '"' << std::endl;
+    }
+}
+
+void Scene::displayChat(std::vector<Character>* characters)
+{
+    for(auto& chat : chats)
+    {
+        characters->at(chat.character_index).chat(chat.line);
     }
 }
 
@@ -75,6 +91,18 @@ Scene& Scene::addChoice(const std::string &choice, int next_scene_index)
 Scene& Scene::addDialogue(int character_index, const std::string line)
 {
     dialogues.push_back(Dialogue(character_index, line));
+    return *this;
+}
+
+Scene& Scene::addDialogue(int character_index, const std::string line, const std::string monologue)
+{
+    dialogues.push_back(Dialogue(character_index, line, monologue));
+    return *this;
+}
+
+Scene& Scene::addChat(int character_index, const std::string line)
+{
+    chats.push_back(Dialogue(character_index, line));
     return *this;
 }
 

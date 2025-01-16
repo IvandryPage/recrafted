@@ -2,19 +2,45 @@
 
 Character::Character() = default;
 Character::~Character() = default;
-Character::Character(std::string name_param, std::string description_param, Color::ColorName character_color_param)
+Character::Character(std::string name_param, std::string description_param, Color::ColorName character_color_param, bool is_first_param)
 {
     name = name_param;
     description = description_param;
     character_color = character_color_param;
+    is_first_encounter = is_first_param;
 }
 
 void Character::speak(std::string line)
 {
     Animation::changeColor(character_color);
-    std::cout << std::left << std::setw(10) << std::setfill(' ') << name;
+    if(!is_first_encounter)
+        std::cout << std::left << std::setw(10) << std::setfill(' ') << name;
+    else
+    {
+        std::cout << std::left << std::setw(10) << std::setfill(' ') << "???";
+        is_first_encounter = false;
+    }
     Animation::resetColor();
     std::cout << " : " << std::flush;
     
     Animation::type(line);
+}
+
+void Character::chat(std::string line)
+{
+    Animation::changeColor(character_color);
+
+    if(name.find("Eva") != std::string::npos)
+        std::cout << std::right << std::setw(50) << std::setfill(' ') << name;
+    else
+        std::cout << std::left << std::setw(10) << std::setfill(' ') << name;
+
+    Animation::resetColor();
+    std::cout << " : \n" << std::flush;
+    
+    if(name.find("Eva") != std::string::npos)
+        std::cout << std::setw(20) << std::setfill(' ') << " ";
+
+    Animation::type(line);
+    std::cout << "\n";
 }
