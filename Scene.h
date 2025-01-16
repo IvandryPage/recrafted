@@ -19,6 +19,7 @@ class Scene
         std::vector<int> next_scenes {};
         std::vector<std::string> choices {};
         std::vector<Dialogue> dialogues {};
+        std::vector<Dialogue> chats {};
         bool is_ending{};
         bool pause_at_end{};
         bool is_title{};
@@ -30,10 +31,13 @@ class Scene
         bool getIsEnding();
         int getNextScene();
         bool getPauseAtEnd();
-        void display(std::vector<Character> characters);
-        void displayDialogues(std::vector<Character> characters);
+        void display(std::vector<Character>* characters);
+        void displayDialogues(std::vector<Character>* characters);
+        void displayChat(std::vector<Character>* characters);
         Scene& addChoice(const std::string &choice, int next_scene_index);
         Scene& addDialogue(int character_index, const std::string line);
+        Scene& addDialogue(int character_index, const std::string line, const std::string monologue);
+        Scene& addChat(int character_index, const std::string line);
         Scene& setPrompt(std::string prompt_param);
         Scene& setNextScene(int next_scene_param);
         Scene& setIsTitle(bool is_title_param);

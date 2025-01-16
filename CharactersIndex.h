@@ -7,9 +7,12 @@ namespace Characters
     {
         EVA,
         GALANG,
-        YOLA,
-        FIA,
-        CHARACTERS_COUNT
+        MM,
+        PP,
+        ALIFIA,
+        YUNITA,
+        MUSA,
+        NARRATOR
     };
 }
 
