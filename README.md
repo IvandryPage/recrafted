@@ -1,2 +1,2 @@
 # Recrafted
-Story Telling Game about a relationship
+Lorem ipsum dolor sit amet
