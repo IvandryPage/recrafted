@@ -29,6 +29,7 @@ class Scene
         Scene(std::string title_param, std::string description_param, bool is_ending_param = false);
         ~Scene();
         bool getIsEnding();
+        bool getIsTitle();
         int getNextScene();
         bool getPauseAtEnd();
         void display(std::vector<Character>* characters);

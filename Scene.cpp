@@ -14,6 +14,7 @@ Scene::Scene(std::string title_param, std::string description_param, bool is_end
 Scene::~Scene() = default;
 
 bool Scene::getIsEnding() { return is_ending; }
+bool Scene::getIsTitle() { return is_title; }
 int Scene::getNextScene() { return next_scene; }
 bool Scene::getPauseAtEnd() { return pause_at_end; }
 std::vector<std::string>& Scene::getChoices() { return choices; }
@@ -69,7 +70,7 @@ void Scene::displayDialogues(std::vector<Character>* characters)
     {
         characters->at(dialogue.character_index).speak(dialogue.line);
         if(!dialogue.monologue.empty())
-            std::cout << "\t\t" << '"' << dialogue.monologue << '"' << std::endl;
+            std::cout << std::setw(13) << " " << "(\"" << dialogue.monologue << "\")" << std::endl;
     }
 }
 
@@ -110,6 +111,7 @@ Scene& Scene::setPrompt(std::string prompt_param)
 {
     prompt = prompt_param;
     pause_at_end = false;
+    is_title = false;
     return *this;
 }
 
@@ -122,5 +124,6 @@ Scene& Scene::setNextScene(int next_scene_param)
 Scene& Scene::setIsTitle(bool is_title_param)
 {
     is_title = is_title_param;
+    pause_at_end = true;
     return *this;
 }

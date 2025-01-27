@@ -27,15 +27,25 @@ void GameManager::startGame(InputHandler* inputHandler)
         if(current_scene_index >= std::size(scenes))
             running_state = false;
 
-        saveGame();
-        
-        if (scenes[current_scene_index].getPauseAtEnd())
-        {
-            std::cout << std::flush;
-            Animation loading (Frames::Loading, 4, 2, true, 2, 0);
-        }
+        // FIXME: waiting for input when there is no choices and it's not a title scene
+        //        instead it waits on title scene and double on choices or double on everything
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        // if (scenes[current_scene_index].getPauseAtEnd())
+        // {
+        //     if(!scenes[current_scene_index].getIsTitle())
+        //     {
+        //         #ifdef _WIN32
+        //             _getch();
+        //         #else
+        //             inputHandler->getKey();
+        //         #endif
+
+        //     }
+        // }
 
         timer.stopTimer();
+        saveGame();
+        Animation loading (Frames::Loading, 4, 2, true, 2, 0);
     }
 
     exitGame();
@@ -43,6 +53,7 @@ void GameManager::startGame(InputHandler* inputHandler)
 
 void GameManager::exitGame()
 {
+    timer.displayTime();
     exit(0);
 }
 
@@ -76,9 +87,6 @@ void GameManager::nextScene()
         current_scene_index++;
     else
         current_scene_index = scenes[current_scene_index].getNextScene();
-
-    if(scenes[current_scene_index].getPauseAtEnd())
-        std::this_thread::sleep_for(std::chrono::seconds(2));
 }
 
 bool GameManager::getState() { return running_state; }
@@ -168,10 +176,10 @@ void GameManager::loadScene()
         Scene(
             "Prolog_2B",
             "Aku membiarkan ketidakyakinan itu menghantuiku. Di minggu ini, aku berusaha belajar.\n"
-            "Namun, rasanya aku tidak ikhlas, aku belajar dengan setengah hati, tidak ada materi yang masuk ke dalam otakku.\n"
-            "Berat sekali rasanyaa minggu ini."
+            "Namun, rasanya aku tidak ikhlas, aku belajar dengan setengah hati, tidak ada materi yang masuk"
+            "ke dalam otakku. Berat sekali rasanyaa minggu ini."
         )
-        .addDialogue(Characters::EVA, "(Gimanaa aku bisa survive kalo seperti ini)")
+        .addDialogue(Characters::EVA, "(Gimana aku bisa survive kalo kayak gini)")
         .setNextScene(Scenes::PROLOG_3)
     );
 
@@ -179,8 +187,8 @@ void GameManager::loadScene()
         Scene(
             "Prolog_2C",
             "Aku berusaha mencari kesibukan agar aku tidak terpikirkan oleh hal itu\n"
-            "Menonton tiktok, marathon drama korea, pergi jalan-jalan, jajan, ngobrol sama temen-temeku\n ..."
-            "semuanya aku lakukan agar tidak terpikirkan hal itu\n"
+            "Menonton tiktok, marathon drama korea, pergi jalan-jalan, jajan, ngobrol sama temen-temenku\n"
+            "... semuanya aku lakukan agar tidak terpikirkan hal itu\n"
             "Aku pun tidak mempelajar materi yang disampaikan dosen. Malas sekali rasanya..."
         )
         .setNextScene(Scenes::PROLOG_3)
@@ -194,8 +202,9 @@ void GameManager::loadScene()
             "hanya aku yang tidak bisa mengikuti materinya. Seperti pemula yang berada di tengah kumpulan ahli.\n" 
             "Saat aku sedang termenung itu, tiba-tiba ada yang menghampiriku ...\n"
         )
-        .addDialogue(Characters::GALANG, "Permisi maaf, aku Galang. Aku tadi liatin kamu selama di kelas, ... kamu kayaknya kesulitan ngikutin ya?")
-        .addDialogue(Characters::EVA, "Hehe, Iya aku kesulitan, Galang. Btw, nama aku Eva.", "(Kok dia perhatiin aku sihh sial!)")
+        .addDialogue(Characters::GALANG, "Permisi maaf, aku Galang. Aku tadi liatin kamu selama di kelas, ...")
+        .addDialogue(Characters::GALANG, "kamu kayaknya kesulitan ngikutin ya?")
+        .addDialogue(Characters::EVA, "Hehe, Iya aku kesulitan, Galang. Btw, nama aku Eva.", "Kok dia perhatiin aku sihh sial!")
         .addDialogue(Characters::GALANG, "Kalo gitu, kamu mau nggak belajar bareng aku? Aku udah bisa dikit sih")
         .addDialogue(Characters::EVA, "...", "Gimana ini yaa? Terima enggak")
         .setPrompt("Apa yang akan Eva lakukan")
@@ -208,7 +217,7 @@ void GameManager::loadScene()
         Scene(
             "Prolog_4A",
             "Begitu senangnya diriku ketika ada yang menawarkan diri untuk mengajariku.\n"
-            "Kesempatan yang tidak mungkin aku buang begitu saja. Segera aku bertukar nomor dan mendiskusikan rencana sesi belajar dengan Galang\n"
+            "Kesempatan yang tidak mungkin aku buang begitu saja. Segera aku bertukar nomor dan mendiskusikan\nrencana sesi belajar dengan Galang"
         )
         .addDialogue(Characters::EVA, "Jadi, kita mau gimana belajarnya?")
         .addDialogue(Characters::GALANG, "Tergantung kamu soalnya, kalo aku free terus sih cuma fokus kuliah soalnya")
@@ -222,7 +231,7 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Prolog_4B",
-            "Aku ragu aku bisa mengikuti cara belajarnya, apa yang akan terjadi kalo aku gak bisa? Dia pasti bakal ngolok-olok aku\n"
+            "Aku ragu aku bisa mengikuti cara belajarnya, apa yang akan terjadi kalo aku gak bisa?\nDia pasti bakal ngolok-olok aku. "
             "Salah gak ya aku nerima tawaran dia. Aduh, gimana ini"
         )
         .addDialogue(Characters::GALANG, "Gimana kamu mau sesi belajarnya seperti?")
@@ -267,7 +276,7 @@ void GameManager::loadScene()
         Scene(
             "Prolog_6A",
             "Aku memutuskan untuk meminta bantuannya lagi. Berharap dia masih mau mengajariku.\n"
-            "Siapa ya yang punya nomomrnya? atau aku tunggu besok aja bilang langsung? Enaknya gimana ya"
+            "Siapa ya yang punya nomornya? atau aku tunggu besok aja bilang langsung? Enaknya gimana ya"
         )
         .setPrompt("Apa yang akan aku lakukan?")
         .addChoice("Chat Galang", Scenes::PROLOG_7A)
@@ -300,19 +309,20 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Prolog_7A",
-            "Untuk menghubungi dia, aku harus tau nomornya, tapi gimana aku nyarinyaa, aku coba tanya yang udah aku kenal aja deeh"
+            "Untuk menghubungi dia, aku harus tau nomornya, tapi gimana aku nyarinyaa,\n"
+            "aku coba tanya yang udah aku kenal aja deeh"
         )
-        .addChat(Characters::EVA, "Beb, kamu kenal Galang enggak?")
-        .addChat(Characters::ALIFIA, "nggak e Va. Coba tanya Yunita")
+        .addChat(Characters::EVA, "beb, kamu kenal galang enggak?")
+        .addChat(Characters::ALIFIA, "Nggak e Va. Coba tanya Yunita")
         .addChat(Characters::EVA, "ok deh")
-        .addChat(Characters::EVA, "Yunitaa, kamu tau Galang enggakk?")
-        .addChat(Characters::YUNITA, "Galang kelas kita? yang jago ngoding itu")
-        .addChat(Characters::EVA, "Iya ituu, kamu tauu kahh, aku boleh minta nomornya gakk")
+        .addChat(Characters::EVA, "yunitaa, kamu tau galang enggakk?")
+        .addChat(Characters::YUNITA, "Galang kelas kita? yang bisa ngoding itu")
+        .addChat(Characters::EVA, "iya ituu, kamu tauu kahh, aku boleh minta nomornya gakk")
         .addChat(Characters::YUNITA, "Tauu, ciee ada yang cinlok nih kayaknyaa")
-        .addChat(Characters::EVA, "Enggak yaa, cuma mau tauu aja, buruan dehh")
+        .addChat(Characters::EVA, "enggak yaa, cuma mau tauu aja, buruan dehh")
         .addChat(Characters::YUNITA, "Iya sabar deh si sensi")
         .addChat(Characters::YUNITA, "Galang(asciiart_phone_share)")
-        .addChat(Characters::EVA, "Makasihh beb")
+        .addChat(Characters::EVA, "makasihh beb")
         .setNextScene(Scenes::PROLOG_8)
     );
 
@@ -322,7 +332,8 @@ void GameManager::loadScene()
             "Keesokan harinya, aku segera buru-buru mencari orang itu -- Galang di kampus.\n"
             "Sempat putus asa mencari karena dia tidak masuk kelas hari itu.\n"
             "Entah lah apa yang ada dipikirannya. Dua jam aku berkeliling, mencarinya.\n"
-            "Akhirnya aku menemukannya, di taman fakultas sebelah, sendirian bergumam dengan laptopnya. Segera aku temui dia\n"
+            "Akhirnya aku menemukannya, di taman fakultas sebelah, sendirian bergumam dengan laptopnya.\n"
+            "Segera aku temui dia\n"
         )
         .addDialogue(Characters::EVA, "Galangg!")
         .addDialogue(Characters::GALANG, "Eh Eva, haloo, kok sampe sini")
@@ -342,14 +353,15 @@ void GameManager::loadScene()
             "Prolog_8",
             "Tanpa menunggu lama lagi, aku segera menghubungi dia setelah mendapatkan nomornya"
         )
-        .addChat(Characters::EVA, "Halo, Galang, aku Eva, save nomorku yaa")
+        .addChat(Characters::EVA, "halo, galang, aku eva, save nomorku yaa")
         .addChat(Characters::GALANG, "Ok Eva. Ada perlu apa ya?")
-        .addChat(Characters::EVA, "Itu soal tawaran kamu kemarin, masih berlaku gak yaa?")
-        .addChat(Characters::GALANG, "Loh kan udah kamu tolak, tapi kamu berubah pikiran po sekarang?\n")
-        .addChat(Characters::EVA, "Iyaa aku berubah pikirann coding sulit bangett butuh orang lain ngajarin")
+        .addChat(Characters::EVA, "ituuu soal tawaran kamu kemarinn,")
+        .addChat(Characters::EVA, "masih berlaku gak yaa?")
+        .addChat(Characters::GALANG, "kamu berubah pikiran po?\n")
+        .addChat(Characters::EVA, "iyaa, coding susah bangett butuh orang lain ngajarin")
         .addChat(Characters::GALANG, "Hahaha, oke")
-        .addChat(Characters::EVA, "Jadi kamu mau nggak?")
-        .addChat(Characters::GALANG, "bolehh, kita atur jadwalnya")
+        .addChat(Characters::EVA, "jadi kamu mau nggak?")
+        .addChat(Characters::GALANG, "Bolehh, kita atur jadwalnya")
         .addChat(Characters::EVA, "sip makasihh")
         .setNextScene(Scenes::PROLOG_10B)
     );
@@ -389,15 +401,17 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Prolog_11A",
-            "Hari Rabu, pagi hari dengan cuaca yang cerah dan tidak panas itu. Aku janjian untuk menemuinya di kampus, taman fakultas sebelah.\n"
+            "Hari Rabu, pagi hari dengan cuaca yang cerah dan tidak panas itu. Aku janjian untuk menemuinya di kampus,\n"
+            "sekitar taman fakultas sebelah. "
             "Dari kejauhan terlihat dia sedang memandangi laptopnya dengan serius\n"
-            "Dia seperti telah menyiapkan apa yang mau dia sampaikan dengan matang. Kami memulai sesi belajar pertama kami hingga siang hari.\n"
+            "Dia seperti telah menyiapkan apa yang mau dia sampaikan dengan matang.\n"
+            "Kami memulai sesi belajar pertama kami hingga siang hari.\n"
         )
         .addDialogue(Characters::GALANG, "Gimana hari ini? masih banyak pasti kan yang dibingungin")
         .addDialogue(Characters::EVA, "Hahaha tau aja kamu")
         .addDialogue(Characters::GALANG, "Kan proses belajar, jadi wajar aja kalo masih banyak yang dibingungin")
-        .addDialogue(Characters::GALANG, "Kita akhiri dulu ya hari ini, nanti kamu bisa review sendiri lagi dan kalo mau tanya, chat aja")
-        .addDialogue(Characters::EVA, "Okay okya makasih yaa")
+        .addDialogue(Characters::GALANG, "Kita akhiri dulu ya hari ini, nanti kamu bisa review kalo mau tanya, chat aja")
+        .addDialogue(Characters::EVA, "Okay okay makasih yaa")
         .setPrompt("Setelah sesi belajar pertama ini, apa yang akan aku lakukan?")
         .addChoice("Review materi yang diberikan Galang", Scenes::PROLOG_12A)
         .addChoice("Merasa coding semakin susah", Scenes::PROLOG_12B)
@@ -407,7 +421,7 @@ void GameManager::loadScene()
         Scene(
             "Prolog_11B",
             "Seminggu kemudian, siang harinya. Aku bertemu dengannya di kampus, sekitar taman fakultas sebelah.\n"
-            "Aku menghampiri dia yang sedang fokus dengan laptopnya, tak menyangka dia serius menyiapkan materi untukku\n"
+            "Aku menghampiri dia yang sedang fokus dengan laptopnya, tak menyangka dia menyiapkan materi untukku\n"
         )
         .addDialogue(Characters::EVA, "Kamu beneran mau ngajarin aku ta? sampe nyiapin materi gituu")
         .addDialogue(Characters::GALANG, "Lah kamu kira aku bercanda.. aku serius kokk")
@@ -417,7 +431,7 @@ void GameManager::loadScene()
         .addDialogue(Characters::GALANG, "Gimana hari ini? masih banyak pasti kan yang dibingungin")
         .addDialogue(Characters::EVA, "Hahaha tau aja kamu")
         .addDialogue(Characters::GALANG, "Kan proses belajar, jadi wajar aja kalo masih banyak yang dibingungin")
-        .addDialogue(Characters::GALANG, "Kita akhiri dulu ya hari ini, nanti kamu bisa review sendiri lagi dan kalo mau tanya, chat aja")
+        .addDialogue(Characters::GALANG, "Kita akhiri dulu ya hari ini, nanti kamu bisa review kalo mau tanya, chat aja")
         .addDialogue(Characters::EVA, "Okay okya makasih yaa")
         .setPrompt("Setelah sesi belajar pertama ini, apa yang akan aku lakukan?")
         .addChoice("Merasa coding semakin susah", Scenes::PROLOG_12B)
@@ -459,8 +473,9 @@ void GameManager::loadScene()
         Scene(
             "Prolog_13",
             "Sesampainya di rumah, aku melihat ponselku dan mendapati Galang mengirimiku pesan.\n"
-            "Entah bagaimana ada perasaan yang mulai tumbuh dari dalam diriku. Perasaan berbunga-bunga ketika dia menghubungiku\n"
-            "Ketika dia mengajariku, ketika dia tersenyum.."
+            "Entah bagaimana ada perasaan yang mulai tumbuh dari dalam diriku.\n"
+            "Perasaan berbunga-bunga ketika dia menghubungiku.\n"
+            "Ketika dia mengajariku..., ketika dia tersenyum..."
         )
         .addChat(Characters::GALANG, "Aku tahu kamu masih banyak belum pahamnya, jangan patah semangat yaa\nKalo ada yang mau ditanyain, tanyain aja, jangan sungkan")
         .setPrompt("Setelah mendengar dukungan dan belajar bersama dengan Galang, perasaanku:")
@@ -540,7 +555,7 @@ void GameManager::loadScene()
             "Perasaan_3",
             "Setelah membalas pesan dari Galang, aku segera bergegas berangkat ke kampus.\n"
             "Selama perjalanan ke kampus, aku merasa semangat dan tenang apalagi setelah dia memberikanku dukungan.\n"
-            "Pesan sederhana dari Galang, namun mampu membuatku percaya diri dengan kemampuanku"
+            "Pesan sederhana dari Galang, namun mampu membuatku percaya diri dengan kemampuanku\n"
             "Aku merasa aku bisa mengerjakan ujian itu, melewati tantangan yang mungkin dulunya berat bagiku"
         )
         .setNextScene(Scenes::PERASAAN_4A)
@@ -549,7 +564,8 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Perasaaan_4A",
-            "Sesampainya di kampus, aku melihat Galang sudah berada di sana. Dengan tenang melihat layar komputernya, matanya terfokus pada satu titik.\n"
+            "Sesampainya di kampus, aku melihat Galang sudah berada di sana. Dengan tenang melihat layar komputernya,\n"
+            "matanya terfokus pada satu titik.\n"
             "Namun begitu dia melihatku, dia tersenyum, senyuman itu membuat hatiku berdebar."
         )
         .setPrompt("Apa yang akan aku lakukan?")
@@ -560,10 +576,12 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Perasaaan_4B",
-            "Sesampainya di kampus, aku melihat Galang sudah berada di sana. Dengan tenang melihat layar komputernya, matanya terfokus pada satu titik.\n"
-            "Namun begitu dia melihatku, dia tersenyum, senyuman itu membuat hatiku berdebar. Namun, karena perasaanku begitu campur aduk, aku menghindari\n"
-            "kontak dengan Galang. Bahkan aku tidak membalas senyumannya, memalingkan pandanganku, ke arah tempat duduk yang telah diatur.\n\n"
-            "Menunggu waktu ujian dimulai, aku merasa semakin cemas, ketakutan menguasai diriku saat itu. Bingung akan apa yang sedang terjadi.\n"
+            "Sesampainya di kampus, aku melihat Galang sudah berada di sana. Dengan tenang melihat layar komputernya,\n"
+            "matanya terfokus pada satu titik.\n"
+            "Namun begitu dia melihatku, dia tersenyum, senyuman itu membuat hatiku berdebar.\n"
+            "Namun, karena perasaanku begitu campur aduk, aku menghindari\n"
+            "kontak dengan Galang. Bahkan aku tidak membalas senyumannya, memalingkan pandanganku,\nke arah tempat duduk yang telah diatur.\n\n"
+            "Menunggu waktu ujian dimulai, aku merasa semakin cemas, ketakutan menguasai diriku saat itu.\nBingung akan apa yang sedang terjadi.\n"
         )
         .addDialogue(Characters::EVA, "(Waduh gimana ini yaaa)")
         .addDialogue(Characters::EVA, "(Yang lainnya belajarnya gimana yaa)")
@@ -576,7 +594,7 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Perasaan_5A",
-            "Aku membalas senyumannya dengan hangat dan menghampirinya sebelum ujian dimulai. Sedikit mengobrol dan berdiskusi materi ujian"
+            "Aku membalas senyumannya dengan hangat dan menghampirinya sebelum ujian dimulai.\nSedikit mengobrol dan berdiskusi materi ujian"
         )
         .addDialogue(Characters::EVA, "Tenang banget nih keliatannya")
         .addDialogue(Characters::GALANG, "Harus dong")
@@ -598,7 +616,7 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Perasaan_5C",
-            "Aku berusaha meyakinkan diriku agar aku bisa tenang dan tidak terbawa kepanikan sehingga aku bisa mengerjakan ujianku dengan baik"
+            "Aku berusaha meyakinkan diriku agar aku bisa tenang dan tidak terbawa kepanikan sehingga\naku bisa mengerjakan ujianku dengan baik"
         )
         .addDialogue(Characters::EVA,"(Aku tau aku bisa)")
         .addDialogue(Characters::EVA,"(Aku udah belajar keras semalam)")
@@ -623,7 +641,7 @@ void GameManager::loadScene()
         Scene(
             "Perasaan_7",
             "Setelah berdiskusi dan mengobrol panjang lebar dengan Galang, ujianpun akan segera dimulai.\n" 
-            "Sehingga aku harus segera kembali ke posisi dudukku dan bersiap mengerjakan ujian."
+            "Sehingga aku harus segera kembali ke posisi dudukku dan bersiap mengerjakan ujian.\n"
             "Aku merasa tenang, merasa yakin dengan diriku sendiri"
         )
         .setPrompt("Bagaimana ppenilaianku terhadap Galang?")
@@ -637,7 +655,7 @@ void GameManager::loadScene()
             "Perasaan_8A",
             "Dua jam berlalu, ujian pun sudah selesai, aku merasa cukup lega dengan ujian kali ini.\n"
             "Walaupun masih belum maksimal, setidaknya aku sudah tidak sekosong itu.\n"
-            "Aku mengobrol sebentar dengan Alifia dan Yunita yang kala itu juga sedang membahas tentang bagaimana ujian mereka.\n"
+            "Aku mengobrol sebentar dengan Alifia dan Yunita yang kala itu juga sedang membahas tentang\nbagaimana ujian mereka.\n"
             "Galang sudah keluar ruangan sejak setengah jam yang lalu, sepertinya ujian ini mudah baginya.\n"
             "Namun, saat aku keluar ruangan, aku melihatnya duduk di kursi depan ruangan seperti sedang menunggu seseorang."
         )
@@ -651,9 +669,9 @@ void GameManager::loadScene()
             "Perasaan_8B",
             "Dua jam berlalu, ujian pun sudah selesai, aku merasa cukup lega dengan ujian kali ini.\n"
             "Walaupun masih belum maksimal, setidaknya aku sudah tidak sekosong itu.\n"
-            "Aku mengobrol sebentar dengan Alifia dan Yunita yang kala itu juga sedang membahas tentang bagaimana ujian mereka.\n"
+            "Aku mengobrol sebentar dengan Alifia dan Yunita yang kala itu juga sedang membahas tentang\nbagaimana ujian mereka.\n"
             "Galang sudah keluar ruangan sejak setengah jam yang lalu, sepertinya ujian ini mudah baginya.\n"
-            "Namun, saat aku keluar ruangan, aku melihatnya duduk di kursi depan ruangan seperti sedang menunggu seseorang."
+            "Namun, saat aku keluar ruangan, aku melihatnya duduk di kursi depan ruangan\nseperti sedang menunggu seseorang."
         )
         .setNextScene(Scenes::PERASAAN_9B)
     );
@@ -661,12 +679,12 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Perasaan_9A",
-            "Aku menghampirinya dan mengajaknya berbincang tentang ujian. Aku berharap jawabanku sama dengan jawabannya."
+            "Aku menghampirinya dan mengajaknya berbincang tentang ujian.\nAku berharap jawabanku sama dengan jawabannya."
         )
         .addDialogue(Characters::EVA, "Eh, Lang. Masih disini ajaa")
         .addDialogue(Characters::GALANG, "akhirnya yang ditunggu keluar juga. Gimana ujian kamu?")
         .addDialogue(Characters::EVA, "hah? kamu nungguin aku? ngapainn ih...")
-        .addDialogue(Characters::EVA, "Ujiannya sih masih lumayan susah, tapi oke lahh gak kosong-kosong banget lembar jawabanku hahahah")
+        .addDialogue(Characters::EVA, "Ujiannya sih masih lumayan susah, tapi oke lahh gak kosong banget lembar jawabanku hahahah")
         .addDialogue(Characters::GALANG, "Baguslahh kalo begitu, berarti sesi belajar ada progressnya juga")
         .addDialogue(Characters::NARRATOR, "Aku dan Galang pun membahas soal demi soal mencari tahu jawaban yang lebih tepat.\nSetelah semuanya selesai, dia bertanya kepadaku,")
         .addDialogue(Characters::GALANG, "Jadi, gimana masih ragu nerusin kuliah di sini?")
@@ -679,8 +697,8 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Perasaan_9B",
-            "Aku hanya diam dan berusaha mengalihkan pembicaraan. Galang pun sepertinya menyadari kalau aku terbebani dengan apa yang dia katakan.\n"
-            "Percakapan selanjutnya, terasa menjadi canggung. Sepertinya dia merasa gagal mengajariku atau mungkin dia tidak ingin membebaniku lagi.\n"
+            "Aku hanya diam dan berusaha mengalihkan pembicaraan. Galang pun sepertinya menyadari\nkalau aku terbebani dengan apa yang dia katakan.\n"
+            "Percakapan selanjutnya, terasa menjadi canggung. Sepertinya dia merasa gagal mengajariku\natau mungkin dia tidak ingin membebaniku lagi.\n"
             "Entah lah apa yang ada dipikirannya. Namun, aku segera pulang setelah merasa canggung dengannya."
         )
         .setNextScene(Scenes::PERASAAN_11)
@@ -689,10 +707,10 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Perasaan_10",
-            "aku jujur akan perasaanku kepada Galang. Aku jujur bahwa aku masih merasa terjebak. Aku merasa tidak cocok dengan jurusan ini\n"
-            "Coding sangat membuatku merasa asing di dunia ini. Semuanya ku ungkapkan kepada Galang, kecuali perasaanku pada dirinya"
+            "aku jujur akan perasaanku kepada Galang. Aku jujur bahwa aku masih merasa terjebak.\nAku merasa tidak cocok dengan jurusan ini\n"
+            "Coding sangat membuatku merasa asing di dunia ini. Semuanya ku ungkapkan kepada Galang,\nkecuali perasaanku pada dirinya"
         )
-        .addDialogue(Characters::GALANG, "Begitu yaa, kamu masih merasa tidak layak berada di sini, semuanya seperti berjalan tidak sesuai keinginanmu")
+        .addDialogue(Characters::GALANG, "Begitu yaa, merasa tidak layak berada di sini, semuanya berjalan tidak sesuai keinginanmu")
         .addDialogue(Characters::GALANG, "Boleh aku ngasih bahan pertimbangan ke kamu")
         .addDialogue(Characters::EVA, "Boleh..")
         .addDialogue(Characters::GALANG, "Aku yakin itu wajar, banyak yang merasa begitu di jurusan manapun itu")
@@ -709,7 +727,7 @@ void GameManager::loadScene()
         Scene(
             "Perasaan_11",
             "Sejak saat itu, aku jauh darinya, tak kubalas pesan-pesannya lagi, hingga akhirnya kami seperti orang asing.\n"
-            "Aku dan dia sudah tidak saling menyapa lagi, tidak melakukan sesi belajar lagi, kini aku dan dia sudah berbeda jalan.\n"
+            "Aku dan dia sudah tidak saling menyapa lagi, tidak melakukan sesi belajar lagi,\nkini aku dan dia sudah berbeda jalan. "
             "Aku kembali sendiri dengan perasaan ini. Tak ada lagi yang memberiku dukungan"
         )
         .setNextScene(Scenes::ENDING_1)
@@ -721,7 +739,7 @@ void GameManager::loadScene()
             "Aku merenungkan kata-katanya selama perjalanan pulang, sesampainya di rumah, dalam segala aktivitasku.\n"
             "Aku mencoba mencari jawaban atas keraguanku sendiri, aku bingung harus berbuat apa..."
         )
-        .addDialogue(Characters::EVA, "(Sudah seminggu ya sejak hari itu, aku belum bisa memutuskan apakah aku mau melanjutkan kuliahku)")
+        .addDialogue(Characters::EVA, "(Sudah seminggu ya, aku belum bisa memutuskan apakah aku mau melanjutkan kuliahku)")
         .addDialogue(Characters::EVA, "(Aku juga bingung, apakah aku harus mengungkapkan perasaanku kepada Galang)")
         .addDialogue(Characters::EVA, "(Perasaan ini sudah sangat menggelora, aku sangat ingin menyampaikannya)")
         .setPrompt("Langkah apa yang akan aku ambil?")
@@ -732,9 +750,9 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Keraguan_2A",
-            "Sesi belajar dengan Galang selalu menjadi salah satu waktu favoritku, karena aku bisa merasakan ketenangan ketika di dekatnya.\n"
+            "Sesi belajar dengan Galang selalu menjadi salah satu waktu favoritku, karena\naku bisa merasakan ketenangan ketika di dekatnya.\n"
             "Dia selalu memberiku dukungan dan nasihat terkait keraguanku ini. Membantuku keluar dari permasalahan ini.\n"
-            "Namun, aku rasa aku tidak boleh hanya mendengarkan atau mendapatkan nasihat darinya, aku juga harus mencari\n"
+            "Namun, aku rasa aku tidak boleh hanya mendengarkan atau mendapatkan nasihat darinya,\naku juga harus mencari "
             "pendapat-pendapat lain dari temen-temenku."
         )
         .addChat(Characters::EVA, "Alifia, kamu lagi sibuk nggak, aku mau cerita\n")
@@ -760,7 +778,7 @@ void GameManager::loadScene()
             "Keraguan_2B",
             "Aku memutuskan untuk memberi ruang kepada diriku sendiri, menjauh dari Galang untuk sementara waktu\n"
             "Berusaha memikirkan semua solusinya untuk sementara waktu.\n"
-            "Tak terasa sudah hampir seminggu, aku menjauh dari Galang dan memikirkan solusinya. Aku menyimpulkan beberapa langkah yang bisa aku ambil.."
+            "Tak terasa sudah hampir seminggu, aku menjauh dari Galang dan memikirkan solusinya.\nAku menyimpulkan beberapa langkah yang bisa aku ambil.."
         )
         .setPrompt("Langkah mana yang akan aku ambil?")
         .addChoice("Berusaha sendirian seterusnya", Scenes::PERASAAN_10)
@@ -771,7 +789,7 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Keraguan_3A",
-            "Malam harinya aku pun menghubungi temannya Alifia, yang katanya membantu Alifia mendapatkan nilai bagus di matkul programming"
+            "Malam harinya aku pun menghubungi temannya Alifia, yang katanya membantu Alifia dapat nilai bagus\ndi matkul programming"
         )
         .addChat(Characters::EVA, "Malam, Musa. aku Eva temennya Alifia. Aku boleh nanya gak?")
         .addChat(Characters::MUSA, "Malam Eva, bolehh")
@@ -813,8 +831,8 @@ void GameManager::loadScene()
         Scene(
             "Kecemburuan_1",
             "Kini, perasaan cemburu mulai tumbuh ketika aku melihat Galang berbicara dengan gadis lain.\n"
-            "Perasaan tidak nyaman yang sulit aku jelaskan. Sedangkan kala itu, sering sekali aku melihatnya berbicara dengan gadis lain.\n"
-            "Sore itu, aku melihatnya sedang bersama gadis lain, mereka terlihat sangat dekat, Galang bisa tertawa lepas ketika bersama dia."
+            "Perasaan tidak nyaman yang sulit aku jelaskan. Sedangkan kala itu, sering sekali aku melihatnya\nberbicara dengan gadis lain.\n"
+            "Sore itu, aku melihatnya sedang bersama gadis lain, mereka terlihat sangat dekat,\nGalang bisa tertawa lepas ketika bersama dia."
         )
         .addDialogue(Characters::EVA, "(Apa aku takut kehilangan dia? Apa aku mulai peduli dengannya\?)")
         .addDialogue(Characters::EVA, "(Siapa gadis yang terlihat dekat itu ya)")
@@ -830,15 +848,15 @@ void GameManager::loadScene()
         Scene(
             "Kecemburuan_2A",
             "Aku segera pergi dari sana agar tidak dinotice oleh Galang.\n"
-            "Segera setelah menemukan tempat untuk duduk, aku mengiriminya pesan dan langsung menanyakan tentang siapa gadis tadi.\n"
+            "Segera setelah menemukan tempat untuk duduk, aku mengiriminya pesan dan langsung menanyakan\ntentang siapa gadis tadi.\n"
             "Lama sekali menunggu jawaban darinya, hampir 3 jam dia tidak membalasku..."
         )
         .addChat(Characters::EVA, "Lang, tadi aku liat kamu sama cewek, kalian keliatan akrab gitu, jadi gak enak mau ganggu")
-        .addDialogue(Characters::EVA, "(Lama banget ni anak belum balas padahal udah 3 jam yang lalu)")
+        .addChat(Characters::EVA, "(Lama banget ni anak belum balas padahal udah 3 jam yang lalu)")
         .addChat(Characters::GALANG, "eh tiba-tiba banget nanyain temenku")
         .addChat(Characters::GALANG, "itu namanya Lea, dia temen waktu ospek dulu")
         .addChat(Characters::GALANG, "Emang kamu tadi liatin aku darimana dehh, kok aku gak liat ada kamu")
-        .addDialogue(Characters::EVA, "(Ohh temen ospek, aku tidak mau langsung membalas pesannya)")
+        .addChat(Characters::EVA, "(Ohh temen ospek, aku tidak mau langsung membalas pesannya)")
         .setNextScene(Scenes::KECEMBURUAN_3)
     );
 
@@ -846,8 +864,8 @@ void GameManager::loadScene()
         Scene(
             "Kecemburuan_2B",
             "Sejak hari itu, aku bersikap aneh kepadanya. Aku tidak bisa bersikap seperti biasanya. Hingga akhirnya\n"
-            "Dia menyadari hal ini dan menanyaiku tentang hal ini. Namun, aku tidak mau bercerita kepadanya,\n"
-            "aku selalu diam atau mengalihkan pembicaraan agar dia tidak membahas sikapku ini"
+            "dia menyadari hal ini dan menanyaiku tentang hal ini. Namun, aku tidak mau bercerita kepadanya,\n"
+            "aku selalu diam atau mengalihkan pembicaraan agar dia tidak membahas sikapku ini."
         )
         .setNextScene(Scenes::KECEMBURUAN_3)
     );
@@ -867,8 +885,8 @@ void GameManager::loadScene()
         Scene(
             "Kecemburuan_4A",
             "Untuk mendistraksi diri dari rasa cemburu itu, aku fokus belajar coding.\n"
-            "Siang malam kugunakan untuk belajar. Kuhabiskan waktuku untuk berkegiatan agar aku tidak memikirkan hal itu."
-            "Walau sesekali masih terpikirkan, aku memilih untuk segera melakukan kegiatan apapun itu sehingga tidak ada waktu bagiku untuk cemburu.\n"
+            "Siang malam kugunakan untuk belajar. Kuhabiskan waktuku untuk berkegiatan agar aku tidak memikirkan hal itu.\n"
+            "Walau sesekali masih terpikirkan, aku memilih untuk segera melakukan kegiatan apapun itu sehingga\ntidak ada waktu bagiku untuk cemburu. "
             "Hingga aku bosan belajar sendiri"
         )
         .setNextScene(Scenes::KECEMBURUAN_5)
@@ -878,7 +896,7 @@ void GameManager::loadScene()
         Scene(
             "Kecemburuan_4B",
             "Sejak aku kenal Musa, aku sering chat dengannya, bercerita tentang hidup maupun membahas coding.\n"
-            "Akupun memutuskan untuk cerita kepada dia, tentang aku yang memiliki rasa cemburu, tetapi aku tidak menyebutkan siapa cowok itu."
+            "Akupun memutuskan untuk cerita kepada dia, tentang aku yang memiliki rasa cemburu\ntetapi aku tidak menyebutkan siapa cowok itu.\n"
             "Musa pun menanggapi ceritaku, memberiku perhatian hingga aku tidak memikirkan hal itu lagi"
         )
         .setNextScene(Scenes::KECEMBURUAN_6)
@@ -887,7 +905,7 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Kecemburuan_5",
-            "Karena bosan belajar secara mandiri, akupun mengajak Galang untuk belajar bersama dengan dalih persiapan ujian berikutnya\n"
+            "Karena bosan belajar secara mandiri, akupun mengajak Galang belajar bersama untuk persiapan ujian berikutnya\n"
             "Galang pun menyanggupinya dan akhirnya keesokan harinya aku bertemu kembali dengannya.\n"
             "Keesokan harinya kami pun belajar bersama. Aku tidak bisa fokus ketika belajar saat itu.\n"
             "Rasa suka, cemburu, dan keinginan untuk belajar saling tumpang tindih sehingga membuyarkan fokusku"
@@ -898,7 +916,7 @@ void GameManager::loadScene()
     scenes.push_back(
         Scene(
             "Kecemburuan_6",
-            "Galang menyadari hal ini sehingga dia sekali lagi menanyakan kenapa sikapku seperti tidak fokus dan bersikap tidak seperti biasanya\n"
+            "Galang menyadari hal ini sehingga dia sekali lagi menanyakan kenapa sikapku seperti tidak fokus\ndan bersikap tidak seperti biasanya\n"
         )
         .addDialogue(Characters::GALANG, "Kamu kenapa Eva?")
         .addDialogue(Characters::GALANG, "Daritadi aku perhatiin, kamu kayak gak fokus")
@@ -968,7 +986,7 @@ void GameManager::loadScene()
         Scene(
             "Perjalanan_2B",
             "Walaupun coding tidak sesulit dulu, pada akhirnya aku memutuskan untuk keluar dari jurusan Sistem Informasi\n"
-            "Akhirnya aku tunduk pada rasa keraguan itu. Mencoba hal baru di luar sana. Tapi apakah aku harus mengungkapkan perasaanku kepada Galang?\n"
+            "Akhirnya aku tunduk pada rasa keraguan itu. Mencoba hal baru di luar sana.\nTapi apakah aku harus mengungkapkan perasaanku kepada Galang?\n"
         )
         .setPrompt("Haruskah aku ungkapkan?")
         .addChoice("Dengan cara halus sampai dia notice", Scenes::ENDING_4)
@@ -1049,7 +1067,8 @@ void GameManager::loadScene()
             "Namun, aku tidak bisa melepaskan perasaan ini begitu saja. Aku harus tau perasaanya juga.\n"
             "Sore itu, hari terakhirku di kuliah. Aku menemuinya di taman, tempatku dan dia sering bertemu.\n"
             "Aku mengungkapkan keputusanku yang akan pindah jurusan sekaligus mengungkapkan perasaanku kepadanya.\n"
-            "Terlihat jelas dia sedih karena aku pindah jurusan. Namun, dia juga senang karena ternyata dia juga memiliki perasaan yang sama."
+            "Terlihat jelas dia sedih karena aku pindah jurusan.\n"
+            "Namun, dia juga senang karena ternyata kita memiliki perasaan yang sama."
         )
         .setNextScene(Scenes::END_TITLE)
     );
@@ -1135,7 +1154,7 @@ void GameManager::loadCharacter()
     ));
 
     characters.push_back(Character(
-        "",
+        "Narrator",
         "Narrator",
         Color::DEFAULT
     ));

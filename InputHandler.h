@@ -6,6 +6,13 @@
 #include <vector>
 #include <string>
 
+#ifdef _WIN32
+#include <conio.h>
+#else
+#include <unistd.h>
+#include <termios.h>
+#endif
+
 class InputHandler
 {
     private:
@@ -28,6 +35,8 @@ class InputHandler
         void setIsValid(bool is_valid_param);
 
         void getPlayerInput(std::vector<std::string>& choices);
+
+        char getKey();
 
 };
 

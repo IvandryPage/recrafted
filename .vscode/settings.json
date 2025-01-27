@@ -67,6 +67,10 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "codecvt": "cpp",
-        "stdfloat": "cpp"
+        "stdfloat": "cpp",
+        "forward_list": "cpp",
+        "set": "cpp",
+        "ranges": "cpp",
+        "valarray": "cpp"
     }
 }

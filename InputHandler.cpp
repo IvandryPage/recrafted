@@ -62,3 +62,18 @@ void InputHandler::sanitizeInput(std::vector<std::string> choices)
         sanitized_input = -1;
     }
 }
+
+#if defined(__linux__) || defined(__APPLE__)
+char InputHandler::getKey() {
+    struct termios oldt, newt;
+    char ch;
+    
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+    ch = getchar();
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    return ch;
+}
+#endif
