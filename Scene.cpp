@@ -24,8 +24,7 @@ void Scene::display(std::vector<Character>* characters)
 {
     if(!is_title)
     {
-        // displaySeparator('=', "Narrator");
-        displaySeparator('=', title);
+        displaySeparator('=', "Narrator");
         Animation::type(description);
     }
     else
@@ -111,7 +110,6 @@ Scene& Scene::setPrompt(std::string prompt_param)
 {
     prompt = prompt_param;
     pause_at_end = false;
-    is_title = false;
     return *this;
 }
 
@@ -124,6 +122,5 @@ Scene& Scene::setNextScene(int next_scene_param)
 Scene& Scene::setIsTitle(bool is_title_param)
 {
     is_title = is_title_param;
-    pause_at_end = true;
     return *this;
 }

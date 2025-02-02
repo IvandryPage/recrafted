@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <filesystem>
 #include "json.hpp"
 #include "Scene.h"
 #include "InputHandler.h"
@@ -38,7 +39,7 @@ class GameManager
         void nextScene();
         void getUserInput(InputHandler* inputHandler);
 
-        void pauseGame();
+        void startMenu(InputHandler* inputHandler);
         void exitGame();
         void loadScene();
         void loadCharacter();

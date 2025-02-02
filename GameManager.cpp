@@ -2,7 +2,6 @@
 
 GameManager::GameManager()
 {
-    loadGame();
     loadScene();
     loadCharacter();
     current_scene_index = 0;
@@ -13,35 +12,35 @@ GameManager::~GameManager() = default;
 void GameManager::startGame(InputHandler* inputHandler)
 {
     running_state = true;
-
     while(running_state)
     {
         timer.startTimer();
         displayScene();
 
+        if(std::filesystem::exists(SAVE_FILE_NAME) && current_scene_index == 0)
+            startMenu(inputHandler);
+
         if(std::size(scenes[current_scene_index].getChoices()) != 0)
+        {
             getUserInput(inputHandler);
+        }
         else
+        {
             nextScene();
+        }
 
         if(current_scene_index >= std::size(scenes))
             running_state = false;
 
-        // FIXME: waiting for input when there is no choices and it's not a title scene
-        //        instead it waits on title scene and double on choices or double on everything
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        // if (scenes[current_scene_index].getPauseAtEnd())
-        // {
-        //     if(!scenes[current_scene_index].getIsTitle())
-        //     {
-        //         #ifdef _WIN32
-        //             _getch();
-        //         #else
-        //             inputHandler->getKey();
-        //         #endif
-
-        //     }
-        // }
+        if (!scenes[current_scene_index].getPauseAtEnd())
+        {
+            std::cout << "\n Tekan tombol apapun untuk melanjutkan ... ";
+            #if defined(__linux__) || defined(__APPLE__)
+                inputHandler->getKey();
+            #else
+                _getch();
+            #endif
+        }
 
         timer.stopTimer();
         saveGame();
@@ -57,11 +56,28 @@ void GameManager::exitGame()
     exit(0);
 }
 
-void GameManager::pauseGame()
+void GameManager::startMenu(InputHandler* inputHandler)
 {
-    running_state = false;
+    std::cout << "Ketik angka atau kata untuk memilih. CTRL + C untuk keluar\n";
+    std::vector<std::string> choices { "Lanjut", "Mulai Baru", "Keluar" };
 
-    std::cout << "Pause!" << std::endl;
+    for(int i{}; i < std::size(choices); i++)
+    {
+        std::cout << '(' << i+1 << ')' << " ";
+        std::cout << choices[i] << std::endl;
+    }
+
+    inputHandler->getPlayerInput(choices);
+    int menu_input = inputHandler->getSanitizedInput();
+    switch(menu_input)
+    {
+        case 0:
+            loadGame();
+            break;
+        case 2:
+            exitGame();
+            break;
+    }
 }
 
 void GameManager::displayScene()
@@ -113,13 +129,15 @@ void GameManager::loadGame()
     if (file.is_open()) {
         nlohmann::json save_data;
         file >> save_data;
-        progress_index = save_data.value("progress_index", 0);
+        progress_index = save_data.value("progress_index", 1);
         timer.setTotalElapsedTime(std::chrono::seconds(save_data.value("time_played", 0)));
         user_choices = save_data.value("choices", std::vector<int>{});
     } else {
         progress_index = 1;
         user_choices = {};
     }
+
+    scenes[0].setNextScene(progress_index);
 }
 
 void GameManager::loadScene()
@@ -142,7 +160,6 @@ void GameManager::loadScene()
             )ascii"
         )
         .setIsTitle(true)
-        .setNextScene(progress_index)
     );
 
     scenes.push_back(

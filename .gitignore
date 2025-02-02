@@ -31,4 +31,7 @@
 *.out
 *.app
 recrafted
+
+# Additional files
 recrafted_memory.json
+*.drawio
