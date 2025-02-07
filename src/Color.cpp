@@ -1,4 +1,4 @@
-#include "Color.h"
+#include "../include/Color.h"
 
 std::string Color::getColorCode(ColorName color)
 {

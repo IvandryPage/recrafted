@@ -5,7 +5,7 @@
 #include <vector>
 #include <fstream>
 #include <filesystem>
-#include "json.hpp"
+#include "../include/library/json.hpp"
 #include "Scene.h"
 #include "InputHandler.h"
 #include "Timer.h"

@@ -1,4 +1,4 @@
-#include "Animation.h"
+#include "../include/Animation.h"
 
 Animation::Animation(std::vector<std::string> frames_param, int frames_per_second_param, int duration_param, bool cursor_focused_param, int row_param, int column_param)
 {

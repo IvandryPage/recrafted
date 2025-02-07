@@ -1,4 +1,4 @@
-#include "Character.h"
+#include "../include/Character.h"
 
 Character::Character() = default;
 Character::~Character() = default;

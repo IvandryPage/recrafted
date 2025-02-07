@@ -1,4 +1,4 @@
-#include "Scene.h"
+#include "../include/Scene.h"
 
 Scene::Scene() = default;
 Scene::Scene(std::string title_param, std::string description_param, bool is_ending_param)

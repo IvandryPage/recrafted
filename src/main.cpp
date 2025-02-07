@@ -1,6 +1,6 @@
 #include <iostream>
-#include "GameManager.h"
-#include "InputHandler.h"
+#include "../include/GameManager.h"
+#include "../include/InputHandler.h"
 
 GameManager gameManager;
 InputHandler inputHandler;

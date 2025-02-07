@@ -1,4 +1,4 @@
-#include "Dialogue.h"
+#include "../include/Dialogue.h"
 
 Dialogue::Dialogue(int character_index_param, std::string line_param, std::string monologue_param)
 {
