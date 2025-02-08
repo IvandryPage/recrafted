@@ -72,5 +72,7 @@
         "set": "cpp",
         "ranges": "cpp",
         "valarray": "cpp"
-    }
+    },
+    "makefile.configureOnOpen": true,
+    "editor.tabSize": 2
 }

@@ -6,22 +6,31 @@
 #include <iomanip>
 #include "Animation.h"
 
-class Timer
-{
-    private:
-        std::chrono::time_point<std::chrono::steady_clock> start_time;
-        std::chrono::time_point<std::chrono::steady_clock> end_time;
-        std::chrono::seconds total_elapsed_time{};
-        bool timer_running {true};
+class Timer{
+public:
+    Timer() = default;
+    ~Timer() = default;
+    
+    void stopTimer();
+    void displayTime();
+    
+    inline void startTimer() {
+        start_time = std::chrono::steady_clock::now();
+    }
 
-    public:
-        Timer();
-        ~Timer();
-        void startTimer();
-        void stopTimer();
-        int getTotalElapsedTime();
-        void setTotalElapsedTime(std::chrono::seconds total_elapsed_time_param);
-        void displayTime();
+    inline const int getTotalElapsedTime() const {
+        return total_elapsed_time.count();
+    }
+    
+    inline void setTotalElapsedTime(std::chrono::seconds total_elapsed_time_param) {
+        total_elapsed_time = total_elapsed_time_param;
+    }
+
+private:
+    std::chrono::time_point<std::chrono::steady_clock> start_time;
+    std::chrono::time_point<std::chrono::steady_clock> end_time;
+    std::chrono::seconds total_elapsed_time{0};
+    bool timer_running {true};
 };
 
 #endif

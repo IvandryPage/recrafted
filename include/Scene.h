@@ -8,43 +8,64 @@
 #include "Character.h"
 #include "Dialogue.h"
 
-class Scene
-{
-    
-    private:
-        std::string title{};
-        std::string description{};
-        std::string prompt{};
-        int next_scene {};
-        std::vector<int> next_scenes {};
-        std::vector<std::string> choices {};
-        std::vector<Dialogue> dialogues {};
-        std::vector<Dialogue> chats {};
-        bool is_ending{};
-        bool pause_at_end{};
-        bool is_title{};
+class Scene {
+public:
+    Scene() = default;
+    Scene(std::string title, std::string description, bool is_ending = false);
+    ~Scene() = default;
 
-    public:
-        Scene();
-        Scene(std::string title_param, std::string description_param, bool is_ending_param = false);
-        ~Scene();
-        bool getIsEnding();
-        bool getIsTitle();
-        int getNextScene();
-        bool getPauseAtEnd();
-        void display(std::vector<Character>* characters);
-        void displayDialogues(std::vector<Character>* characters);
-        void displayChat(std::vector<Character>* characters);
-        Scene& addChoice(const std::string &choice, int next_scene_index);
-        Scene& addDialogue(int character_index, const std::string line);
-        Scene& addDialogue(int character_index, const std::string line, const std::string monologue);
-        Scene& addChat(int character_index, const std::string line);
-        Scene& setPrompt(std::string prompt_param);
-        Scene& setNextScene(int next_scene_param);
-        Scene& setIsTitle(bool is_title_param);
-        std::vector<std::string>& getChoices();
-        std::vector<int> getNextScenes();
-        void displaySeparator(char separator_character, std::string separator_title);
+    inline const bool getIsEnding() const { 
+        return is_ending_; 
+    }
+    
+    inline const bool getIsTitle() const { 
+        return is_title_; 
+    }
+
+    inline const int getNextScene() const {
+        return next_scene_;
+    }
+
+    inline const bool getPauseAtEnd() const {
+        return pause_at_end_;
+    }
+
+    const std::vector<std::string>& getChoices() const {
+        return choices_;
+    }
+
+    const std::vector<int> getNextScenes() const {
+        return next_scenes_;
+    }
+
+    void display(std::vector<Character>* characters);
+    void displayDialogues(std::vector<Character>* characters);
+    void displayChat(std::vector<Character>* characters);
+    void displaySeparator(char separator_character, const std::string& separator_title);
+
+    Scene& addChoice(const std::string& choice, int next_scene_index);
+    Scene& addDialogue(int character_index, const std::string& line);
+    Scene& addDialogue(int character_index, const std::string& line, const std::string& monologue);
+    Scene& addChat(int character_index, const std::string& line);
+    Scene& setPrompt(const std::string& prompt);
+    Scene& setNextScene(int next_scene);
+    Scene& setIsTitle(bool is_title);
+
+
+private:
+    std::string title_{};
+    std::string description_{};
+    std::string prompt_{};
+    std::vector<Dialogue> dialogues_{};
+    std::vector<Dialogue> chats_{};
+
+    int next_scene_{};
+    std::vector<int> next_scenes_{};
+    std::vector<std::string> choices_{};
+
+    bool is_ending_{};
+    bool pause_at_end_{};
+    bool is_title_{};
 };
 
 #endif

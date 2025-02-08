@@ -5,8 +5,7 @@
 GameManager gameManager;
 InputHandler inputHandler;
 
-int main()
-{
+int main() {
     gameManager.startGame(&inputHandler);
     return 0;
 }

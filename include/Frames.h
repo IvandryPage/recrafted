@@ -4,10 +4,14 @@
 #include <iostream>
 #include <vector>
 
-struct Frames
-{   
-    static const std::vector<std::string> Loading;
-
+struct Frames{   
+    static inline std::vector<std::string> Loading = { 
+        "   <3   ",
+        "  <3 <3  ",
+        " <3 <3 <3 ",
+        "  <3 <3  ",
+        "   <3   " 
+    };
 };
 
 #endif

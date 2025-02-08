@@ -1,45 +1,39 @@
 #include "../include/GameManager.h"
 
-GameManager::GameManager()
-{
+GameManager::GameManager() {
     loadScene();
     loadCharacter();
     current_scene_index = 0;
 }
 
-GameManager::~GameManager() = default;
-
-void GameManager::startGame(InputHandler* inputHandler)
-{
+void GameManager::startGame(InputHandler* inputHandler) {
     running_state = true;
-    while(running_state)
-    {
+    while (running_state) {
         timer.startTimer();
         displayScene();
 
-        if(std::filesystem::exists(SAVE_FILE_NAME) && current_scene_index == 0)
+        if (std::filesystem::exists(kSaveFileName) && current_scene_index == 0) {
             startMenu(inputHandler);
-
-        if(std::size(scenes[current_scene_index].getChoices()) != 0)
-        {
-            getUserInput(inputHandler);
         }
-        else
-        {
+
+        if (std::size(scenes[current_scene_index].getChoices()) != 0) {
+            getUserInput(inputHandler);
+        } else {
             nextScene();
         }
 
-        if(current_scene_index >= std::size(scenes))
+        if (scenes[current_scene_index].getIsEnding()) {
             running_state = false;
+        }
 
-        if (!scenes[current_scene_index].getPauseAtEnd())
-        {
+        if (!scenes[current_scene_index].getPauseAtEnd()) {
             std::cout << "\n Tekan tombol apapun untuk melanjutkan ... ";
-            #if defined(__linux__) || defined(__APPLE__)
+
+#if defined(__linux__) || defined(__APPLE__)
                 inputHandler->getKey();
-            #else
+#else
                 _getch();
-            #endif
+#endif
         }
 
         timer.stopTimer();
@@ -50,27 +44,23 @@ void GameManager::startGame(InputHandler* inputHandler)
     exitGame();
 }
 
-void GameManager::exitGame()
-{
+void GameManager::exitGame() {
     timer.displayTime();
     exit(0);
 }
 
-void GameManager::startMenu(InputHandler* inputHandler)
-{
+void GameManager::startMenu(InputHandler* inputHandler) {
     std::cout << "Ketik angka atau kata untuk memilih. CTRL + C untuk keluar\n";
-    std::vector<std::string> choices { "Lanjut", "Mulai Baru", "Keluar" };
+    std::vector<std::string> choices{"Lanjut", "Mulai Baru", "Keluar"};
 
-    for(int i{}; i < std::size(choices); i++)
-    {
+    for (int i{}; i < std::size(choices); i++) {
         std::cout << '(' << i+1 << ')' << " ";
         std::cout << choices[i] << std::endl;
     }
 
     inputHandler->getPlayerInput(choices);
     int menu_input = inputHandler->getSanitizedInput();
-    switch(menu_input)
-    {
+    switch (menu_input) {
         case 0:
             loadGame();
             break;
@@ -80,52 +70,46 @@ void GameManager::startMenu(InputHandler* inputHandler)
     }
 }
 
-void GameManager::displayScene()
-{
-    #ifdef _WIN32
+void GameManager::displayScene() {
+#ifdef _WIN32
         system("cls");
-    #else
+#else
         system("clear");
-    #endif
+#endif
+
     scenes[current_scene_index].display(&characters);
 }
 
-void GameManager::getUserInput(InputHandler* inputHandler)
-{
+void GameManager::getUserInput(InputHandler* inputHandler) {
     inputHandler->getPlayerInput(scenes[current_scene_index].getChoices());
     current_scene_index = (inputHandler->getSanitizedInput() >= 0) ? scenes[current_scene_index].getNextScenes()[inputHandler->getSanitizedInput()] : current_scene_index;
     user_choices.push_back(inputHandler->getSanitizedInput());
 }
 
-void GameManager::nextScene()
-{
-    if(scenes[current_scene_index].getNextScene() == -1)
+void GameManager::nextScene() {
+    if (scenes[current_scene_index].getNextScene() == -1) {
         current_scene_index++;
-    else
+    } else {
         current_scene_index = scenes[current_scene_index].getNextScene();
+    }
 }
 
-bool GameManager::getState() { return running_state; }
-
-void GameManager::saveGame()
-{
-    if(progress_index != std::size(scenes))
-    {
+void GameManager::saveGame() {
+    if (progress_index != std::size(scenes)) {
         nlohmann::json save_data {
             {"progress_index", current_scene_index},
             {"time_played", timer.getTotalElapsedTime()},
             {"user_choice_history", user_choices}
         };
 
-        std::ofstream save_file(SAVE_FILE_NAME); 
+        std::ofstream save_file(kSaveFileName); 
         save_file << save_data.dump(4);
         save_file.close();
     }
 }
 
-void GameManager::loadGame()
-{
-    std::ifstream file(SAVE_FILE_NAME);
+void GameManager::loadGame() {
+    std::ifstream file(kSaveFileName);
     if (file.is_open()) {
         nlohmann::json save_data;
         file >> save_data;
@@ -140,8 +124,7 @@ void GameManager::loadGame()
     scenes[0].setNextScene(progress_index);
 }
 
-void GameManager::loadScene()
-{
+void GameManager::loadScene() {
     scenes.push_back(
         Scene(
             "title_screen", 
@@ -1117,9 +1100,7 @@ void GameManager::loadScene()
     );
 }
 
-void GameManager::loadCharacter()
-{
-
+void GameManager::loadCharacter() {
     characters.push_back(Character(
         "Eva", 
         "Cewek 19 tahun yang suka scroll TikTok dan tidur, tipe orang yang independen. "

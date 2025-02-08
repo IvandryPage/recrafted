@@ -1,10 +1,8 @@
 #ifndef SCENES_INDEX_H
 #define SCENES_INDEX_H
 
-namespace Scenes
-{
-    enum SceneIndex 
-    {
+namespace Scenes{
+    enum SceneIndex {
         TITLE,
         PROLOG_1,
         PROLOG_2A, PROLOG_2B, PROLOG_2C,

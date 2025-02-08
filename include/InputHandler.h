@@ -13,31 +13,41 @@
 #include <termios.h>
 #endif
 
-class InputHandler
-{
-    private:
-        bool is_valid{};
-        std::string input{};
-        int sanitized_input{};
+class InputHandler {
+public:
+    InputHandler() = default;
+    ~InputHandler() = default;
 
-        bool validateInput(std::vector<std::string>& choices);
-        void sanitizeInput(std::vector<std::string> choices);
+    void getPlayerInput(const std::vector<std::string>& choices);
+    char getKey();
 
-    public:
-        InputHandler();
-        ~InputHandler();
+    inline const std::string getInput() const { 
+        return input_; 
+    }
+    
+    inline const short getSanitizedInput() const {
+        return sanitized_input_;
+    }
 
-        std::string getInput();
-        void setSanitizedInput(int sanitized_input_param);
-        int getSanitizedInput();
+    inline void setSanitizedInput(short sanitized_input) {
+        sanitized_input_ = sanitized_input;
+    }
 
-        bool getIsValid();
-        void setIsValid(bool is_valid_param);
+    inline const bool getIsValid() const {
+        return is_valid_;
+    }
 
-        void getPlayerInput(std::vector<std::string>& choices);
+    inline void setIsValid(bool is_valid) {
+        is_valid_ = is_valid;
+    }
 
-        char getKey();
+private:
+    std::string input_;
+    short sanitized_input_{0};
+    bool is_valid_{false};
 
+    bool validateInput(const std::vector<std::string>& choices);
+    void sanitizeInput(const std::vector<std::string>& choices);
 };
 
 #endif

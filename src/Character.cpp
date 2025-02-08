@@ -2,63 +2,51 @@
 
 Character::Character() = default;
 Character::~Character() = default;
-Character::Character(std::string name_param, std::string description_param, Color::ColorName character_color_param, bool is_first_param)
-{
-    name = name_param;
-    description = description_param;
-    character_color = character_color_param;
-    is_first_encounter = is_first_param;
-}
+Character::Character(std::string name, std::string description, Color::ColorName character_color, bool is_first)
+    : name_(name), description_(description), character_color_(character_color), is_first_encounter_(is_first) {}
 
-void Character::speak(std::string line)
-{
-    if(!(name.find("Narrator") != std::string::npos))
-    {
-        Animation::changeColor(character_color);
-        if(!is_first_encounter)
-            std::cout << std::left << std::setw(10) << std::setfill(' ') << name;
-        else
-        {
-            std::cout << std::left << std::setw(10) << std::setfill(' ') << "???";
-            is_first_encounter = false;
-        }
-        Animation::resetColor();
-        std::cout << " : " << std::flush;
+void Character::speak(const std::string& line) {
+    if (name_.find("Narrator") != std::string::npos) {
+        std::cout << '\n';
         Animation::type(line);
-    }
-    else
-    {
-        std::cout << std::endl;
-        Animation::type(line);
-        std::cout << std::endl;
+        std::cout << '\n';
+        return;
     } 
+
+    Animation::withColor(character_color_, [&]() {
+        std::cout << std::left << std::setw(10) << std::setfill(' ') 
+            << (is_first_encounter_ ? "???" : name_);
+
+        if(is_first_encounter_) {
+            is_first_encounter_ = false;
+        }
+    });
     
+    std::cout << " : " << std::flush;
+    Animation::type(line);
 }
 
-void Character::chat(std::string line)
-{
-    if(!(name.find("Narrator") != std::string::npos))
-    {
-        Animation::changeColor(character_color);
-
-        if(name.find("Eva") != std::string::npos)
-            std::cout << std::right << std::setw(50) << std::setfill(' ') << name;
-        else
-            std::cout << std::left << std::setw(10) << std::setfill(' ') << name;
-
-        Animation::resetColor();
-        std::cout << " : \n" << std::flush;
-        
-        if(name.find("Eva") != std::string::npos)
-            std::cout << std::setw(20) << std::setfill(' ') << " ";
-
-        Animation::type(line);
-        std::cout << "\n";
-    }
-    else
-    {
+void Character::chat(const std::string& line) {
+    if(name_.find("Narrator") != std::string::npos) {
         std::cout << "\n\n";
         Animation::type(line);
-        std::cout << std::endl;
-    } 
+        std::cout << "\n";
+        return;
+    }
+
+    bool is_eva = name_.find("Eva") != std::string::npos;
+
+    Animation::withColor(character_color_, [&]() {
+        short indentation = (is_eva) ? 50 : 10;
+        auto alignment = (is_eva) ? std::right : std::left;
+        std::cout << alignment << std::setw(indentation) << std::setfill(' ') << name_;
+    });
+
+    std::cout << " : \n" << std::flush; 
+    if(is_eva) {
+        std::cout << std::setw(20) << std::setfill(' ') << " ";
+    }
+
+    Animation::type(line);
+    std::cout << "\n";
 }

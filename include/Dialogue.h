@@ -3,14 +3,14 @@
 
 #include <iostream>
 
-class Dialogue
-{
-    public:
-        int character_index;    
-        std::string line;
-        std::string monologue;
+class Dialogue {
+public:
+    int character_index_;    
+    std::string line_;
+    std::string monologue_;
 
-        Dialogue(int character_index_param, std::string line_param, std::string monologue_param = "");
+    Dialogue(int character_index, std::string line, std::string monologue = "")
+        : character_index_(character_index), line_(line), monologue_(monologue) {}
 };
 
 #endif
