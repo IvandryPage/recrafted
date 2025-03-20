@@ -1,7 +1,7 @@
 # Recrafted: The Love Rewritten
 
 ## 📝 Description  
-**Recrafted: The Love Rewritten** is an interactive storytelling game about a young woman struggling with her college major, believing she isn't capable of succeeding. The story is inspired by real-life events, adapting the journey of my girlfriend and me—how we first met when I taught her how to code. While not a direct retelling, the game captures the emotions, struggles, and choices that shaped our experiences, presented from her perspective.  
+**Recrafted: The Love Rewritten** is an interactive storytelling game about a young woman struggling with her college major, believing she isn't capable of succeeding. The story is inspired by real-life events. While not a direct retelling, the game captures the emotions, struggles, and choices that shaped our experiences, presented from her perspective.  
 
 ## 🎮 How to Play  
 - Follow the story and make choices that influence the outcome.  
