@@ -29,5 +29,6 @@ The system is designed for instant deployment without external dependencies:
 1. **Direct Execution**: Run the provided `.exe` file within a standard terminal environment.
 2. **Manual Compilation**:
    ```bash
-   g++ -std=c++17 main.cpp -o recrafted
-   ./recrafted
+   make all
+   [find the directory of recrafted.exe]
+   ./[file-path]
