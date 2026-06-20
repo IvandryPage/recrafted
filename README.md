@@ -30,5 +30,4 @@ The system is designed for instant deployment without external dependencies:
 2. **Manual Compilation**:
    ```bash
    make all
-   [find the directory of recrafted.exe]
-   ./[file-path]
+   make run

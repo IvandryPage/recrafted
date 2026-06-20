@@ -1,39 +1,51 @@
-# Compiler and FLags
-CXX = g++
-CXXFLAGS = -g -std=c++20 -Iinclude
-
-CXX_WIN = x86_64-w64-mingw32-g++
-CXXFLAGS_WIN = -static -std=c++20 -Iinclude
+# Compiler
+CXX := g++
+CXXFLAGS := -g -std=c++20 -Iinclude
 
 # Directories
-SRC_DIR = src
-INCLUDE_DIR = include
-BUILD_DIR = build
-OBJ_DIR = $(BUILD_DIR)/obj
+SRC_DIR := src
+BUILD_DIR := build
+OBJ_DIR := $(BUILD_DIR)/obj
 
-SRCS = $(wildcard $(SRC_DIR)/*.cpp)
-OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
+# Sources
+SRCS := $(wildcard $(SRC_DIR)/*.cpp)
+OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 
-# Output
-TARGET_LINUX = $(BUILD_DIR)/recrafted
-TARGET_WINDOWS = $(BUILD_DIR)/recrafted.exe
+# Detect OS
+UNAME_S := $(shell uname -s)
 
-# Commands
-$(shell mkdir -p $(OBJ_DIR))
+ifeq ($(UNAME_S),Linux)
+    TARGET := $(BUILD_DIR)/recrafted
+endif
 
-all: $(TARGET_LINUX) $(TARGET_WINDOWS)
+ifeq ($(UNAME_S),Darwin)
+    TARGET := $(BUILD_DIR)/recrafted
+endif
 
-$(TARGET_LINUX): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET_LINUX) $(OBJS)
+# Windows via MinGW/MSYS
+ifeq ($(OS),Windows_NT)
+    TARGET := $(BUILD_DIR)/recrafted.exe
+endif
 
-$(TARGET_WINDOWS): $(OBJS)
-	$(CXX_WIN) $(CXXFLAGS_WIN) -o $(TARGET_WINDOWS) $(SRCS)
+# Default target
+all: $(TARGET)
 
+# Link
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+# Compile
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+# Create directories
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 clean:
 	rm -rf $(BUILD_DIR)
+
+run: all
+	./$(TARGET)
+
+.PHONY: all clean run
